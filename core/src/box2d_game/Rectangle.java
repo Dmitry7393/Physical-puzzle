@@ -1,0 +1,81 @@
+package box2d_game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
+public class Rectangle extends Game_object
+{
+	Body square;
+	private float width_box;
+	private float height_box;
+	Rectangle()
+	{
+		
+	}
+	public void set_box(float a, float b)
+	{
+		width_box = a;
+		height_box = b;
+	}
+	public float get_a()
+	{
+		return width_box;
+	}
+	public void set_coordinate(float x, float y)
+	{
+		current_x = x;
+		current_y = y;
+		start_x = x;
+		start_y = y;
+	}
+	public void set_start_position(float x, float y)
+	{
+		current_x = x;
+		current_y = y;
+		square.setTransform(current_x, current_y, angle);
+		square.setAngularVelocity(0.0f);
+		square.setLinearVelocity(0.0f, 0.0f);
+	}
+	public float get_b()
+	{
+		return height_box;
+	}
+	public void create(World world)
+	{
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        square = world.createBody(bodyDef);
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(width_box, height_box);
+    
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1.1f;
+        fixtureDef.restitution = 0.3f;
+        square.createFixture(fixtureDef);
+        square.setTransform(current_x, current_y, angle);
+        square.setLinearVelocity(0,0);
+        shape.dispose();
+	}
+	public void set_angle()
+	{
+		square.setTransform(current_x, current_y, angle);
+	}
+	public void set_image(String path) //
+	{
+		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(path)));    
+	}
+	public Body get_body()
+	{
+		return square;
+	}
+	public void dispose()
+	{
+		textureRegion.getTexture().dispose();
+	}
+}
