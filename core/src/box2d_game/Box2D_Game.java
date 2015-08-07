@@ -179,7 +179,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
            {      
         	   for(int i = 0; i < object.size(); i++)
         	   {
-        		   object.get(0).set_linear_velocity(124, 0);
+        		   object.get(i).set_linear_velocity(12, 0);
         	   }
               // ball.get_body().setLinearVelocity(0.2f, 0.3f);
            }
