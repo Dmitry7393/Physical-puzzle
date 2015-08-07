@@ -112,7 +112,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     {
     	return (Min + (int)(Math.random() * ((Max - Min) + 1)));
     }
-    @Override
+    
     public void render() {
         camera.update();
         if(game_mode == true)
@@ -180,6 +180,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
               // ball.get_body().setLinearVelocity(0.2f, 0.3f);
            }
         }
+        //Add new figure
         if(keycode == Input.Keys.NUM_1)
         {
             Game_object obj = new Rectangle();
@@ -238,10 +239,6 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         return false;
     }
  
- 
-    // On touch we apply force from the direction of the users touch.
-    // This could result in the object "spinning"
-    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         //square.applyForce(1f,1f,screenX,screenY,true);
     	// translate the mouse coordinates to world coordinates
