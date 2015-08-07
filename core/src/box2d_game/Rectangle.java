@@ -62,6 +62,12 @@ public class Rectangle extends Game_object
         square.setLinearVelocity(0,0);
         shape.dispose();
 	}
+	public void set_linear_velocity(float vx, float vy)
+	{
+		v_x = vx;
+		v_y = vy;
+		square.setLinearVelocity(v_x, v_y);
+	}
 	public void set_angle()
 	{
 		square.setTransform(current_x, current_y, angle);

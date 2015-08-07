@@ -11,7 +11,8 @@ public class Game_object {
 	protected TextureRegion textureRegion;
 	protected float start_x, start_y;
 	public boolean mouse_dragged = false;
-	
+	protected float v_x;
+	protected float v_y;
 	Game_object()
 	{
 		
@@ -22,6 +23,10 @@ public class Game_object {
 	public String type_object_dragged()
 	{
 		return "";
+	}
+	public void set_linear_velocity(float vx, float vy)
+	{
+		
 	}
 	public float get_a()
 	{

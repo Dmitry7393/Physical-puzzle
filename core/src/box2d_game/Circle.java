@@ -37,6 +37,12 @@ public class Circle extends Game_object
         ball.setLinearVelocity(0,0);
         shape_player.dispose();
 	}
+	public void set_linear_velocity(float vx, float vy)
+	{
+		v_x = vx;
+		v_y = vy;
+		ball.setLinearVelocity(v_x, v_y);
+	}
 	public void set_coordinate(float x, float y)
 	{
 		current_x = x;
