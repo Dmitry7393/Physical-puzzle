@@ -12,14 +12,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
+import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  
 public class Box2D_Game extends ApplicationAdapter implements InputProcessor {	  
 	World world;
@@ -44,8 +48,10 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     {
         camera = new OrthographicCamera(54, 32);
         camera.position.set(0, 16, 0);
-        world = new World(new Vector2(0, -20f),  false);
+        world = new World(new Vector2(0, -20.0f),  false);
         batch = new SpriteBatch();
+        
+
        //Bottom line
         BodyDef bodyDef_bottom = new BodyDef();
         bodyDef_bottom.type = BodyDef.BodyType.StaticBody;
@@ -81,7 +87,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         edgeShape_right.dispose();
         //shape.dispose();
         Gdx.input.setInputProcessor(this);
- 
+       
         debugRenderer = new Box2DDebugRenderer();
         font = new BitmapFont();
         font.setColor(Color.BLACK);
@@ -91,12 +97,15 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             public void beginContact(Contact contact) {
                 // Check to see if the collision is between the second sprite and the bottom of the screen
                 // If so apply a random amount of upward force to both objects... just because
-               /* if((contact.getFixtureA().getBody() == ball.get_body() &&
-                        contact.getFixtureB().getBody() == ball2.get_body())
+             
+            /*	if((contact.getFixtureA().getBody() == object.get(0).get_body() &&
+                        contact.getFixtureB().getBody() == object.get(1).get_body())
                         ||
-                        (contact.getFixtureA().getBody() == ball2.get_body() &&
-                                contact.getFixtureB().getBody() == ball.get_body())) {
-                        System.out.println("collision ball with baskeball");
+                        (contact.getFixtureA().getBody() == object.get(1).get_body() &&
+                                contact.getFixtureB().getBody() == object.get(0).get_body())) 
+            			
+            	{
+                        System.out.println("collision");
                 }*/
             }
             @Override
@@ -119,7 +128,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         camera.update();
         if(game_mode == true)
         world.step(1f/60f, 6, 2);
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+      //  Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0,0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.getProjectionMatrix().set(camera.combined);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
@@ -192,6 +202,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             Game_object obj = new Rectangle();
             obj.set_coordinate(random_int(-24, 24), random_int(0, 26));
             obj.set_box(10.0f,  1.0f); 
+            obj.set_fixture(1, 0.1f);
             obj.create(world);
             obj.set_image("data/Wood.jpg");
             object.addElement(obj);         
@@ -200,8 +211,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         {
             Game_object obj2 = new Circle();
             obj2.set_coordinate(random_int(-24, 24), random_int(0, 26));
-            obj2.set_radius(3f);
-            obj2.set_fixture(1.1f,  0.1f);
+            obj2.set_radius(2f);
+            obj2.set_fixture(4.1f,  0.3f);
             obj2.create(world);
             obj2.set_image("data/ball.png");
             object.addElement(obj2);        
@@ -211,7 +222,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             Game_object obj = new Rectangle();
             obj.set_coordinate(random_int(-24, 24), random_int(0, 26));
             obj.set_box(3.0f,  3.0f); 
-            obj.set_fixture(8.0f, 0.2f);
+            obj.set_fixture(15.0f, 0.2f);
             obj.set_image("data/metall.jpg");
             obj.create(world);
             object.addElement(obj);
@@ -221,7 +232,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             Game_object obj = new Rectangle();
             obj.set_coordinate(random_int(-20, 20), random_int(0, 21));
             obj.set_box(3.0f,  3.0f); 
-	        obj.set_fixture(5.0f, 0.2f);
+	        obj.set_fixture(0.6f, 0.2f);
 	        obj.set_image("data/wood_1.jpg");
             obj.create(world);
            
@@ -230,13 +241,42 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         if(keycode == Input.Keys.NUM_5)
         {
 	        Game_object obj = new Static_body();
-	        obj.set_coordinate(3, 8);
-	        obj.set_box(7.0f,  1.0f); 
+	        obj.set_coordinate(4, 8);
+	        obj.set_box(1.0f,  0.6f); 
 	      //  obj.mouse_moved = false;
 	        obj.set_image("data/Wood.jpg"); 
 	        obj.create(world);
 	        object.addElement(obj);
         }
+        if(keycode == Input.Keys.NUM_6)
+        {
+   
+        }
+        if(keycode == Input.Keys.NUM_7)
+        {
+            Game_object obj = new Static_body();
+            obj.set_coordinate(4, 8);
+            obj.set_box(0.4f,  0.4f); 
+            obj.set_image("data/Wood.jpg"); 
+            obj.create(world);
+            object.addElement(obj);
+            Game_object obj2 = new Rectangle();
+            obj2.set_coordinate(4,8);
+            obj2.set_box(8.0f,  1.0f); 
+            obj2.set_fixture(1, 0.1f);
+            obj2.create(world);
+            obj2.set_image("data/Wood.jpg");
+            object.addElement(obj2);  
+            RevoluteJointDef rjd = new RevoluteJointDef();
+            Vector2 v = new Vector2( object.get(0).current_x,  object.get(0).current_y);
+            rjd.initialize(object.get(0).get_body(), object.get(1).get_body(), v);
+            rjd.motorSpeed = 100.0f;
+            rjd.enableLimit = false;
+            rjd.enableMotor = true;
+            rjd.collideConnected = false;
+            world.createJoint(rjd);
+        }
+
         if(keycode == Input.Keys.BACKSPACE)
         {
         	  for(int i = 0; i < object.size(); i++)
@@ -272,12 +312,13 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         }
         if (hitBody != null  )  //&& hitBody != square && hitBody != ball2.get_body()
         {
+        	//left_mouse_pressed = true;
                 MouseJointDef def = new MouseJointDef();
                 def.bodyA = bodyEdgeScreen;
                 def.bodyB = hitBody;
                 def.collideConnected = true;
                 def.target.set(testPoint.x, testPoint.y);
-               // def.maxForce = 1000.0f * hitBody.getMass();
+              //  def.maxForce = 1000.0f * hitBody.getMass();
               //  System.out.println("left mouse pressed");
                 mouseJoint = (MouseJoint)world.createJoint(def);
                 hitBody.setAwake(true);
@@ -289,6 +330,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     	 // if a mouse joint exists we simply destroy it
+    	
         if (mouseJoint != null) {
                 world.destroyJoint(mouseJoint);
                 mouseJoint = null;
@@ -302,6 +344,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
           camera.unproject(testPoint);
           if(hitBody != null) //&& hitBody != ball2.get_body()
           { 
+        	  hitBody.setTransform(testPoint.x, testPoint.y, 0);
         	  for(int i = 0; i < object.size(); i++)
               {
               	if(hitBody == object.get(i).get_body())
@@ -310,6 +353,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
               		{
                   		object.get(i).set_coordinate(testPoint.x, testPoint.y);
                   		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
+                  		//hitBody.setTransform(testPoint.x, testPoint.y, 0);
               		}
               	}
               }
