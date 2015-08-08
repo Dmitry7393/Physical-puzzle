@@ -55,12 +55,17 @@ public class Rectangle extends Game_object
     
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.1f;
-        fixtureDef.restitution = 0.3f;
+        fixtureDef.density = density;
+        fixtureDef.restitution = restitution;
         square.createFixture(fixtureDef);
         square.setTransform(current_x, current_y, angle);
         square.setLinearVelocity(0,0);
         shape.dispose();
+	}
+	public void set_fixture(float d, float r)
+	{
+		density = d;
+		restitution = r;
 	}
 	public void set_linear_velocity(float vx, float vy)
 	{

@@ -37,6 +37,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
+    private float angle = 0.0f;
+ 
     @Override
     public void create()
     {
@@ -179,7 +181,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
            {      
         	   for(int i = 0; i < object.size(); i++)
         	   {
-        		   object.get(i).set_linear_velocity(12, 0);
+        		 //  object.get(i).set_linear_velocity(12, 0);
         	   }
               // ball.get_body().setLinearVelocity(0.2f, 0.3f);
            }
@@ -199,6 +201,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             Game_object obj2 = new Circle();
             obj2.set_coordinate(random_int(-24, 24), random_int(0, 26));
             obj2.set_radius(3f);
+            obj2.set_fixture(1.1f,  0.1f);
             obj2.create(world);
             obj2.set_image("data/ball.png");
             object.addElement(obj2);        
@@ -207,19 +210,32 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         {
             Game_object obj = new Rectangle();
             obj.set_coordinate(random_int(-24, 24), random_int(0, 26));
-            obj.set_box(4.0f,  4.0f); 
+            obj.set_box(3.0f,  3.0f); 
+            obj.set_fixture(8.0f, 0.2f);
+            obj.set_image("data/metall.jpg");
             obj.create(world);
-            obj.set_image("data/badlogic.jpg");
             object.addElement(obj);
         }
         if(keycode == Input.Keys.NUM_4)
         {
             Game_object obj = new Rectangle();
             obj.set_coordinate(random_int(-20, 20), random_int(0, 21));
-            obj.set_box(2.0f,  2.0f); 
+            obj.set_box(3.0f,  3.0f); 
+	        obj.set_fixture(5.0f, 0.2f);
+	        obj.set_image("data/wood_1.jpg");
             obj.create(world);
-            obj.set_image("data/badlogic.jpg");
+           
             object.addElement(obj);
+        }
+        if(keycode == Input.Keys.NUM_5)
+        {
+	        Game_object obj = new Static_body();
+	        obj.set_coordinate(3, 8);
+	        obj.set_box(7.0f,  1.0f); 
+	      //  obj.mouse_moved = false;
+	        obj.set_image("data/Wood.jpg"); 
+	        obj.create(world);
+	        object.addElement(obj);
         }
         if(keycode == Input.Keys.BACKSPACE)
         {
@@ -290,8 +306,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
               {
               	if(hitBody == object.get(i).get_body())
               	{
-              		object.get(i).set_coordinate(testPoint.x, testPoint.y);
-              		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
+              		if(object.get(i).mouse_moved == true)
+              		{
+                  		object.get(i).set_coordinate(testPoint.x, testPoint.y);
+                  		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
+              		}
               	}
               }
         	 
@@ -316,11 +335,13 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
              	{
              		if(amount == -1)
                 	{
+             			angle += 0.1f;
              			object.get(i).angle = object.get(i).angle + 0.1f;
 	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
                 	}
              		if(amount == 1)
                 	{
+             			angle -= 0.1f;
 	             		object.get(i).angle = object.get(i).angle - 0.1f;
 	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
                 	}

@@ -13,9 +13,15 @@ public class Game_object {
 	public boolean mouse_dragged = false;
 	protected float v_x;
 	protected float v_y;
+	public boolean mouse_moved = true;
+	protected float density;
+	protected float restitution;
 	Game_object()
 	{
 		
+	}
+	public void set_fixture(float d, float r)
+	{
 	}
 	public void set_box(float a, float b)
 	{

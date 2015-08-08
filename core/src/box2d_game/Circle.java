@@ -21,6 +21,11 @@ public class Circle extends Game_object
 	{
 		radius = r;
 	}
+	public void set_fixture(float d, float r)
+	{
+		density = d;
+		restitution = r;
+	}
 	public void create(World world)
 	{
 		BodyDef bodyDef3 = new BodyDef();
@@ -30,8 +35,8 @@ public class Circle extends Game_object
         shape_player.setRadius(radius);
         FixtureDef fixtureDef_player= new FixtureDef();
         fixtureDef_player.shape = shape_player;
-        fixtureDef_player.density = 1.1f;
-        fixtureDef_player.restitution =  0.3f;
+        fixtureDef_player.density = density;
+        fixtureDef_player.restitution =  restitution;
         ball.createFixture(fixtureDef_player);
         ball.setTransform(current_x, current_y, angle);
         ball.setLinearVelocity(0,0);
