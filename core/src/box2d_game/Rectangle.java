@@ -26,6 +26,7 @@ public class Rectangle extends Game_object
 	{
 		return width_box;
 	}
+
 	public void set_coordinate(float x, float y)
 	{
 		current_x = x;
@@ -79,11 +80,20 @@ public class Rectangle extends Game_object
 	}
 	public void set_image(String path) //
 	{
+		path_texture = path;
 		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(path)));    
 	}
 	public Body get_body()
 	{
 		return square;
+	}
+	public void set_type(String type1)
+	{
+		type = type1;
+	}
+	public String get_type()
+	{
+		return type;
 	}
 	public void dispose()
 	{

@@ -16,6 +16,8 @@ public class Game_object {
 	public boolean mouse_moved = true;
 	protected float density;
 	protected float restitution;
+	protected String path_texture;
+	String type;
 	Game_object()
 	{
 		
@@ -23,10 +25,25 @@ public class Game_object {
 	public void set_fixture(float d, float r)
 	{
 	}
+	public void set_world(World world1)
+	{
+	}
+	public void set_type(String type1)
+	{
+		
+	}
 	public void set_box(float a, float b)
 	{
 	}
+	public String name_texture()
+	{
+		return "";
+	}
 	public String type_object_dragged()
+	{
+		return "";
+	}
+	public String get_type()
 	{
 		return "";
 	}

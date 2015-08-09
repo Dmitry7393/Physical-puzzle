@@ -8,25 +8,58 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 public class Block_hinge {
-	
-	public void create(Vector<Game_object> object, World world)
+	World world;
+	Game_object obj1;
+	Game_object obj2;
+	private float cx, cy;
+	private float density ;
+	private float restitution;
+	private float width, height;
+	public void set_world(World world1)
 	{
-		Game_object obj = new Static_body();
-	    obj.set_coordinate(4, 8);
-	    obj.set_box(0.4f,  0.4f); 
-	    obj.set_image("data/Wood.jpg"); 
-	    obj.create(world);
-	    object.addElement(obj);
-	    Game_object obj2 = new Rectangle();
-	    obj2.set_coordinate(4,8);
-	    obj2.set_box(8.0f,  1.0f); 
-	    obj2.set_fixture(1, 0.1f);
+		world = world1;
+	}
+	public void set_coordinate(float x, float y)
+	{
+		cx = x;
+		cy = y;
+	}
+	public void set_box(float a, float b)
+	{
+		width = a;
+		height = b;
+	}
+	public void set_fixture(float d, float r)
+	{
+		density = d;
+		restitution = r;
+	}
+	public Game_object get_obj1()
+	{
+		 obj1 = new Static_body();
+		 obj1.set_coordinate(cx,cy);
+		 obj1.set_box(0.4f,  0.4f); 
+		 obj1.set_type("part_hinge_static");
+		 obj1.set_image("data/Bronze.jpg"); 
+		 obj1.create(world);
+		 return obj1;
+	}
+	public Game_object get_obj2()
+	{
+		obj2 = new Rectangle();
+	    obj2.set_coordinate(cx,cy);
+	    obj2.set_box(width, height); 
+	    obj2.set_type("part_hinge_dynamic");
+	    obj2.set_fixture(density,restitution);
 	    obj2.create(world);
 	    obj2.set_image("data/Wood.jpg");
-	    object.addElement(obj2);  
+		return obj2;
+	}
+	public void create()
+	{ 
 	    RevoluteJointDef rjd = new RevoluteJointDef();
-	    Vector2 v = new Vector2( object.get(0).current_x,  object.get(0).current_y);
-	    rjd.initialize(object.get(0).get_body(), object.get(1).get_body(), v);
+	    Vector2 v = new Vector2( obj1.current_x,  obj1.current_y);
+	    rjd.initialize(obj1.get_body(), obj2.get_body(), v);
 	    rjd.motorSpeed = 100.0f;
 	    rjd.enableLimit = false;
 	    rjd.enableMotor = true;

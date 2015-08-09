@@ -1,4 +1,7 @@
 package box2d_game;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Vector;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -41,8 +44,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
-    private float angle = 0.0f;
- 
+   // private float angle = 0.0f;
     @Override
     public void create()
     {
@@ -50,9 +52,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         camera.position.set(0, 16, 0);
         world = new World(new Vector2(0, -20.0f),  false);
         batch = new SpriteBatch();
-        
-
-       //Bottom line
+        //Bottom line
         BodyDef bodyDef_bottom = new BodyDef();
         bodyDef_bottom.type = BodyDef.BodyType.StaticBody;
         bodyDef_bottom.position.set(0,0);
@@ -119,11 +119,103 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             }
         });
     }
+    public void add_rectangle(float x, float y, float box_width, float box_height, float density, float restitution, float angle, String name_texture)
+    {
+        Game_object obj = new Rectangle();
+        obj.set_coordinate(x, y);
+        obj.set_box(box_width,  box_height);
+        obj.angle = angle;
+        obj.set_fixture(density, restitution);
+        obj.create(world);
+        obj.set_type("rectangle");
+        obj.set_image(name_texture);
+        object.addElement(obj);    
+    }
+    public void add_ball(float x, float y, float radius, float density, float restitution, float angle, String name_texture)
+    {
+        Game_object obj2 = new Circle();
+        obj2.set_coordinate(x, y);
+        obj2.set_radius(radius);
+        obj2.set_fixture(density, restitution);
+        obj2.angle = angle;
+        obj2.create(world);
+        obj2.set_type("ball");
+        obj2.set_image(name_texture);
+        object.addElement(obj2);    
+    }
+   public void  add_static_body(float x, float y,  float box_width, float box_height, float angle, String name_texture)
+    {
+        Game_object obj = new Static_body();
+        obj.set_coordinate(x, y);
+        obj.set_box(box_width, box_height);
+        obj.angle = angle;
+        obj.set_type("static_body");
+        obj.set_image(name_texture); 
+        obj.create(world);
+        object.addElement(obj);
+    }
     public static int random_int(int Min, int Max)
     {
     	return (Min + (int)(Math.random() * ((Max - Min) + 1)));
     }
-    
+	public  void Split_str(String s1)
+    {
+           String[] arr = s1.split(" ");
+           for(int i = 0; i < arr.length; i++)
+           {
+        	   if(i == arr.length-1)
+        	   {
+        		   if(arr[0].equals("rectangle"))
+            	   {
+            		   add_rectangle(Float.valueOf(arr[1]), Float.valueOf(arr[2]), 
+            				   Float.valueOf(arr[3]), Float.valueOf(arr[4]), 
+            				   Float.valueOf(arr[5]), Float.valueOf(arr[6]), 
+            				   Float.valueOf(arr[7]), String.valueOf(arr[8]));     
+            	   }
+        		   if(arr[0].equals("ball"))
+            	   {
+            		   add_ball(Float.valueOf(arr[1]), Float.valueOf(arr[2]),   //position
+            				   Float.valueOf(arr[3]), //radius
+            				   Float.valueOf(arr[4]),  Float.valueOf(arr[5]),   //fixture
+            				   Float.valueOf(arr[6]),  String.valueOf(arr[7])); //angle and texture  
+            	   }
+        		   if(arr[0].equals("static_body"))
+            	   {
+        			   add_static_body(Float.valueOf(arr[1]), Float.valueOf(arr[2]),
+        					   		   Float.valueOf(arr[3]), Float.valueOf(arr[4]),  
+        					   		   Float.valueOf(arr[5]), String.valueOf(arr[6]));
+            	   }
+        		  
+        	   }   
+           }           
+    }
+	public void Load_level(String n_level)
+	{
+	       BufferedReader br = null;
+	        try
+	        {
+	                String sCurrentLine;
+	                br = new BufferedReader(new FileReader(n_level));
+	                while ((sCurrentLine = br.readLine()) != null)
+	                {
+	                        Split_str(sCurrentLine);
+	                }
+	        } catch (IOException e)
+	        {
+	                e.printStackTrace();
+	        }
+	        finally
+	        {
+	                try
+	                {
+	                        if (br != null)br.close();
+	                }
+	                catch (IOException ex)
+	                {
+	                        ex.printStackTrace();
+	                }
+	        }
+	}
     public void render() {
         camera.update();
         if(game_mode == true)
@@ -181,102 +273,82 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     {
         if(keycode == Input.Keys.SPACE)
         {
-            game_mode = !game_mode;
+           game_mode = !game_mode;
            for(int i = 0; i < object.size(); i++)
            {
-        	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);
-        	   
-           }
-           if(game_mode == true)
-           {      
-        	   for(int i = 0; i < object.size(); i++)
-        	   {
-        		 //  object.get(i).set_linear_velocity(12, 0);
-        	   }
-              // ball.get_body().setLinearVelocity(0.2f, 0.3f);
+        	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
            }
         }
         //Add new figure
         if(keycode == Input.Keys.NUM_1)
         {
-            Game_object obj = new Rectangle();
-            obj.set_coordinate(random_int(-24, 24), random_int(0, 26));
-            obj.set_box(10.0f,  1.0f); 
-            obj.set_fixture(1, 0.1f);
-            obj.create(world);
-            obj.set_image("data/Wood.jpg");
-            object.addElement(obj);         
+        	add_rectangle((float)random_int(-24, 24), (float)random_int(0, 26), 10.0f,  1.0f, (float)1, 0.1f,0.0f,  "data/Wood.jpg");     
         }
         if(keycode == Input.Keys.NUM_2)
         {
-            Game_object obj2 = new Circle();
-            obj2.set_coordinate(random_int(-24, 24), random_int(0, 26));
-            obj2.set_radius(2f);
-            obj2.set_fixture(4.1f,  0.3f);
-            obj2.create(world);
-            obj2.set_image("data/ball.png");
-            object.addElement(obj2);        
+        	add_ball(random_int(-24, 24), random_int(0, 26), 2f, 4.1f,  0.3f, 0.0f, "data/ball.png");    
         }
         if(keycode == Input.Keys.NUM_3)
         {
-            Game_object obj = new Rectangle();
-            obj.set_coordinate(random_int(-24, 24), random_int(0, 26));
-            obj.set_box(3.0f,  3.0f); 
-            obj.set_fixture(15.0f, 0.2f);
-            obj.set_image("data/metall.jpg");
-            obj.create(world);
-            object.addElement(obj);
+        	add_rectangle(random_int(-24, 24), random_int(0, 26), 3.0f,  3.0f, 15.0f, 0.2f,0.0f, "data/metall.jpg");
         }
         if(keycode == Input.Keys.NUM_4)
         {
-            Game_object obj = new Rectangle();
-            obj.set_coordinate(random_int(-20, 20), random_int(0, 21));
-            obj.set_box(3.0f,  3.0f); 
-	        obj.set_fixture(0.6f, 0.2f);
-	        obj.set_image("data/wood_1.jpg");
-            obj.create(world);
-           
-            object.addElement(obj);
+           add_rectangle(random_int(-20, 20), random_int(0, 21), 3.0f,  3.0f, 0.6f, 0.2f, 0.0f,"data/wood_1.jpg");
         }
         if(keycode == Input.Keys.NUM_5)
         {
-	        Game_object obj = new Static_body();
-	        obj.set_coordinate(4, 8);
-	        obj.set_box(1.0f,  0.6f); 
-	      //  obj.mouse_moved = false;
-	        obj.set_image("data/Wood.jpg"); 
-	        obj.create(world);
-	        object.addElement(obj);
+        	add_static_body(0, 1, 8.0f,  1.6f, 0.0f, "data/Wood.jpg");
         }
         if(keycode == Input.Keys.NUM_6)
         {
-   
+        	//add_block_hinge()
+        	Block_hinge b = new Block_hinge();
+        	b.set_world(world);
+        	b.set_coordinate(7.0f, 3.0f);
+        	b.set_box(7, 2);
+        	b.set_fixture(2.0f, 0.0f);
+        	object.addElement(b.get_obj2());
+        	object.addElement(b.get_obj1());
+        	b.create();
         }
-        if(keycode == Input.Keys.NUM_7)
+        if(keycode == Input.Keys.W)
         {
-            Game_object obj = new Static_body();
-            obj.set_coordinate(4, 8);
-            obj.set_box(0.4f,  0.4f); 
-            obj.set_image("data/Wood.jpg"); 
-            obj.create(world);
-            object.addElement(obj);
-            Game_object obj2 = new Rectangle();
-            obj2.set_coordinate(4,8);
-            obj2.set_box(8.0f,  1.0f); 
-            obj2.set_fixture(1, 0.1f);
-            obj2.create(world);
-            obj2.set_image("data/Wood.jpg");
-            object.addElement(obj2);  
-            RevoluteJointDef rjd = new RevoluteJointDef();
-            Vector2 v = new Vector2( object.get(0).current_x,  object.get(0).current_y);
-            rjd.initialize(object.get(0).get_body(), object.get(1).get_body(), v);
-            rjd.motorSpeed = 100.0f;
-            rjd.enableLimit = false;
-            rjd.enableMotor = true;
-            rjd.collideConnected = false;
-            world.createJoint(rjd);
+        	String str = "";
+        	Writer w  = new Writer("D:/level1.txt");
+        	for(int j = 0; j < object.size(); j++)
+        	{
+        		if(object.get(j).get_type() == "rectangle")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture;
+            		w.write(str);
+        		}
+        		if(object.get(j).get_type() == "static_body")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
+        					object.get(j).angle + " " + object.get(j).path_texture;
+            		w.write(str);
+        		}
+        		if(object.get(j).get_type() == "ball")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + 
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture;
+            		w.write(str);
+        		}
+        	}
         }
-
+        if(keycode == Input.Keys.L)
+        {
+              Load_level("D:/level1.txt");
+        }
         if(keycode == Input.Keys.BACKSPACE)
         {
         	  for(int i = 0; i < object.size(); i++)
@@ -330,7 +402,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
     	 // if a mouse joint exists we simply destroy it
-    	
+    	hitBody = null;
         if (mouseJoint != null) {
                 world.destroyJoint(mouseJoint);
                 mouseJoint = null;
@@ -344,20 +416,28 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
           camera.unproject(testPoint);
           if(hitBody != null) //&& hitBody != ball2.get_body()
           { 
-        	  hitBody.setTransform(testPoint.x, testPoint.y, 0);
         	  for(int i = 0; i < object.size(); i++)
               {
               	if(hitBody == object.get(i).get_body())
               	{
               		if(object.get(i).mouse_moved == true)
               		{
-                  		object.get(i).set_coordinate(testPoint.x, testPoint.y);
+              			if(object.get(i).get_type() == "part_hinge_static")
+              			{
+              				object.get(i-1).set_coordinate(testPoint.x, testPoint.y); //remember position
+              				object.get(i-1).get_body().setTransform(testPoint.x, testPoint.y, i); //Object will be moving right away
+              			}
+              			if(object.get(i).get_type() == "part_hinge_dynamic")
+              			{
+              				object.get(i+1).set_coordinate(testPoint.x, testPoint.y);  //remember position
+              				object.get(i+1).get_body().setTransform(testPoint.x, testPoint.y, i);
+              			}
+              			object.get(i).set_coordinate(testPoint.x, testPoint.y);  //remember position
                   		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
-                  		//hitBody.setTransform(testPoint.x, testPoint.y, 0);
               		}
               	}
               }
-        	 
+      
           }   
        return false;
     }
@@ -379,13 +459,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
              	{
              		if(amount == -1)
                 	{
-             			angle += 0.1f;
              			object.get(i).angle = object.get(i).angle + 0.1f;
 	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
                 	}
              		if(amount == 1)
                 	{
-             			angle -= 0.1f;
 	             		object.get(i).angle = object.get(i).angle - 0.1f;
 	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
                 	}

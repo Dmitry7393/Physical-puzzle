@@ -64,6 +64,7 @@ public class Static_body extends Game_object {
 	}
 	public void set_image(String path) //
 	{
+		path_texture = path;
 		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(path)));    
 	}
 	public Body get_body()
@@ -73,5 +74,13 @@ public class Static_body extends Game_object {
 	public void dispose()
 	{
 		textureRegion.getTexture().dispose();
+	}
+	public void set_type(String type1)
+	{
+		type = type1;
+	}
+	public String get_type()
+	{
+		return type;
 	}
 }
