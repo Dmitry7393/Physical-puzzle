@@ -19,17 +19,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
-import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
- 
 public class Box2D_Game extends ApplicationAdapter implements InputProcessor {	  
 	World world;
 	SpriteBatch batch;
@@ -47,8 +41,6 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
     private int level = 1;
-    private Vector<Block_hinge> block_hinge = new Vector<Block_hinge>();
-   // private float angle = 0.0f;
     Body b1  = null;
     Body b2  = null;
     TextureRegion textureRegion;
@@ -109,7 +101,6 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                 // If so apply a random amount of upward force to both objects... just because
              if(level == 1)
              {
-
             	 if(b1 != null && b2 != null)
             	 {
             		 System.out.println("b1 and b2 != null");
@@ -180,21 +171,18 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         obj.create(world);
         object.addElement(obj);
     }
-   public void  add_block_hinge(float x, float y,  float box_width, float box_height,  float density, float restitution, float angle, String path_st, String path_d)
+   public void  add_block_hinge(float x, float y,  float box_width, float box_height,  float density, float restitution, float angle, String path)
 	{
-		Block_hinge b = new Block_hinge();
-		b.set_image(path_st, path_d);
-		b.set_world(world);
-		b.set_coordinate(x, y);
-		b.set_box(box_width, box_height);
-		b.set_fixture(density, restitution);
-		object.addElement(b.get_obj2());
-		object.addElement(b.get_obj1());
-		b.create();
-		block_hinge.addElement(b);
-		System.out.println("size = " + block_hinge.size());
+	   	Game_object g = new Spinning_block();
+	   	g.set_coordinate(x, y);
+	   	g.width_dynamic = box_width;
+	   	g.height_dynamic = box_height;
+		g.set_type("block_hinge");
+	   	g.set_fixture(density, restitution);
+	   	g.set_image(path);
+	   	g.create(world);
+	   	object.addElement(g);
 	}
-	
     public static int random_int(int Min, int Max)
     {
     	return (Min + (int)(Math.random() * ((Max - Min) + 1)));
@@ -206,14 +194,13 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
            {
         	   if(i == arr.length-1)
         	   {
-        		   if(arr[0].equals("hinge"))
+        		   if(arr[0].equals("block_hinge"))
             	   {
         			   add_block_hinge(Float.valueOf(arr[1]), Float.valueOf(arr[2]),  
         					   Float.valueOf(arr[3]), Float.valueOf(arr[4]),
         					   Float.valueOf(arr[5]), Float.valueOf(arr[6]), 
-        					   Float.valueOf(arr[7]),
-        					   "image/nail.png", String.valueOf(arr[8]));	    
-            				       
+        					   Float.valueOf(arr[7]), //angle
+        					   String.valueOf(arr[8]));				       
             	   }
         		   if(arr[0].equals("rectangle"))
             	   {
@@ -277,18 +264,16 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
    	 for(int i = 0; i < object.size(); i++)
    	 {
-   		 if(object.get(i).get_type() == "ball")
-   		 {
-   			 b1 = object.get(i).get_body();
-   			 
-   		 }
-   		 if(object.get(i).path_texture == "image/box.png")
+   		 if(object.get(i).path_texture.equals("image/box.png"))
    		 {
    			 b2 = object.get(i).get_body();
    		 }
+   		 if(object.get(i).get_type() == "ball")
+   		 {
+   			 b1 = object.get(i).get_body();
+   		 }	
    	 }
-        batch.begin();
-        
+        batch.begin();   
         if(drawSprite)
         {
         	batch.draw(textureRegion, 0, 16, // the bottom left corner of the box, unrotated
@@ -348,7 +333,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         //Add new figure
         if(keycode == Input.Keys.NUM_1)
         {
-        	add_rectangle((float)random_int(-24, 24), (float)random_int(0, 26), 8.0f,  1.0f, (float)1, 0.1f,0.0f,  "data/Wood.jpg");     
+        	add_rectangle((float)random_int(-24, 24), (float)random_int(0, 26), 5.0f,  0.5f, (float)1, 0.1f,0.0f,  "data/Wood.jpg");     
         }
         if(keycode == Input.Keys.NUM_2)
         {
@@ -365,16 +350,16 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         }
         if(keycode == Input.Keys.NUM_5)
         {
-        	add_static_body(0, 1, 2.0f,  0.2f, 0.0f, "image/wood_2.jpg");
+        	add_static_body(0, 1, 4.5f,  0.6f, 0.0f, "image/wood_2.jpg");
         }
         if(keycode == Input.Keys.NUM_6)
         {
-        	add_block_hinge(7.0f, 3.0f, 7, 0.6f, 2.0f, 0.0f, 0.3f, "image/nail.png",  "image/wood_2.jpg");
+        	
+        	add_block_hinge(3, 1, 6, 0.63f, 9, 0.4f, 0.0f,  "image/wood_2.jpg");
         }
         if(keycode == Input.Keys.NUM_7)
         {
         	add_static_body(3, 5, 4.0f,  0.1f, 0.0f, "data/black.png");
-        	
         }
         if(keycode == Input.Keys.NUM_8)
         {
@@ -415,15 +400,16 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         					object.get(j).path_texture;
             		w.write(str);
         		}	
-        	}
-        	for(int i = 0; i < block_hinge.size(); i++)
-        	{
-        		str = "hinge" + " " + block_hinge.get(i).get_body().get_body().getPosition().x + " " +  block_hinge.get(i).get_body().get_body().getPosition().y + " " +
-        				block_hinge.get(i).get_body().get_a() + " " + block_hinge.get(i).get_body().get_b() + " " + 
-        				block_hinge.get(i).get_body().density + " " + block_hinge.get(i).get_body().restitution + " " +
-        				block_hinge.get(i).get_body().angle + " " +
-        				block_hinge.get(i).get_body().path_texture;
-        		w.write(str);
+        		if(object.get(j).get_type() == "block_hinge")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " +
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture;
+            		w.write(str);
+        		}
+        		
         	}
         }
         if(keycode == Input.Keys.L)
@@ -451,7 +437,6 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     public boolean keyTyped(char character) {
         return false;
     }
- 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         //square.applyForce(1f,1f,screenX,screenY,true);
     	// translate the mouse coordinates to world coordinates
@@ -469,8 +454,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         			break;
         		}
         	}
-        	if(hitBody == object.get(i).get_body()) object.get(i).mouse_dragged = true;
-        	
+        	if(hitBody == object.get(i).get_body()) object.get(i).mouse_dragged = true; 	
         }
         if (hitBody != null)  
         {
@@ -488,26 +472,22 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         System.out.println("mouse down");
         return true;
     }
- 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		for(int i = 0; i < object.size(); i++)
 		{
 			if(hitBody == object.get(i).get_body() && hitBody != null)
 			{
-				if(hitBody.getPosition().x > 16.0f)
+				if(hitBody.getPosition().x < 16.0f)
 	        	{
-	        		object.get(i).change_size(1.5f);
+	        		object.get(i).set_game_size();
 	        	}
 	        	else
 	        	{
-	            	object.get(i).change_size(-1.5f);
+	            	object.get(i).set_object_storage();
 	        	}
 			}
 		}	
-    
- 
-    	//	JOptionPane.showMessageDialog(null, "< 16");
     	hitBody = null;
         if (mouseJoint != null) {
                 world.destroyJoint(mouseJoint);
@@ -528,22 +508,12 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
               	{
               		if(object.get(i).mouse_moved == true)
               		{
-              			if(object.get(i).get_type() == "part_hinge_static")
-              			{
-              				object.get(i-1).set_coordinate(testPoint.x, testPoint.y); //remember position
-              				object.get(i-1).get_body().setTransform(testPoint.x, testPoint.y, i); //Object will be moving right away
-              			}
-              			if(object.get(i).get_type() == "part_hinge_dynamic")
-              			{
-              				object.get(i+1).set_coordinate(testPoint.x, testPoint.y);  //remember position
-              				object.get(i+1).get_body().setTransform(testPoint.x, testPoint.y, i);
-              			}
               			object.get(i).set_coordinate(testPoint.x, testPoint.y);  //remember position
                   		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
+                  		object.get(i).moveTo(testPoint.x, testPoint.y);
               		}
               	}
               }
-      
           }   
        return false;
     }
@@ -551,8 +521,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     public boolean mouseMoved(int screenX, int screenY) {
     	 testPoint.set(screenX, screenY, 0);
          camera.unproject(testPoint);
-         System.out.println("testPoint.x = " + testPoint.x);
-         System.out.println("testPoint.y = " + testPoint.y);
+        // System.out.println("testPoint.x = " + testPoint.x);
+        // System.out.println("testPoint.y = " + testPoint.y);
         return false;
     }
     @Override

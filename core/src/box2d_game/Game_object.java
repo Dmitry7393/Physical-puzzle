@@ -11,6 +11,8 @@ public class Game_object {
 	protected TextureRegion textureRegion;
 	protected float start_x, start_y;
 	public boolean mouse_dragged = false;
+	protected float width_box;
+	protected float height_box;
 	protected float v_x;
 	protected float v_y;
 	public boolean mouse_moved = true;
@@ -20,13 +22,20 @@ public class Game_object {
 	String type;
 	protected boolean inc_size = true;
 	protected boolean dec_size = true;
+	public float start_width, start_height;
+	public float storage_width, storage_height;
+	
+	public  float width_dynamic;
+	public float  height_dynamic;
 	Game_object()
 	{
 		
 	}
-	public void change_size(float s)
+	public void set_game_size()
 	{
-		
+	}
+	public void set_object_storage()
+	{
 	}
 	public void set_fixture(float d, float r)
 	{
@@ -35,10 +44,6 @@ public class Game_object {
 	{
 	}
 	public void set_type(String type1)
-	{
-		
-	}
-	public void change_box(float a, float b)
 	{
 		
 	}
@@ -66,6 +71,10 @@ public class Game_object {
 		return 0;
 	}
 	public void dispose()
+	{
+		
+	}
+	public void moveTo(float dx, float dy)
 	{
 		
 	}

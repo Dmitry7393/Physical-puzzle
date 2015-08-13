@@ -62,7 +62,7 @@ public class Static_body extends Game_object {
 	{
 		groundBody.setTransform(current_x, current_y, angle);
 	}
-	public void set_image(String path) //
+	public void set_image(String path)  //
 	{
 		path_texture = path;
 		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(path)));    

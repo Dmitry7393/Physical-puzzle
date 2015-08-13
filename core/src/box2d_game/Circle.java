@@ -13,6 +13,7 @@ public class Circle extends Game_object
 {
 	Body ball;
     private float radius;
+    private float start_radius;
 	Circle()
 	{
 		
@@ -20,27 +21,50 @@ public class Circle extends Game_object
 	public void set_radius(float r)
 	{
 		radius = r;
+		start_width = r;
+		storage_width = r/2;
 	}
 	public void set_fixture(float d, float r)
 	{
 		density = d;
 		restitution = r;
 	}
-	public void create(World world)
+	public void delete_old_shape()
 	{
-		BodyDef bodyDef3 = new BodyDef();
-        bodyDef3.type = BodyDef.BodyType.DynamicBody;
-        ball = world.createBody(bodyDef3);
-        CircleShape shape_player = new CircleShape();
+		ball.destroyFixture(ball.getFixtureList().first());
+	}
+	public void set_game_size()
+	{
+		radius = start_width;
+		delete_old_shape();
+		create_new_shape();
+	}
+	public void create_new_shape()
+	{     
+		CircleShape shape_player = new CircleShape();
         shape_player.setRadius(radius);
         FixtureDef fixtureDef_player= new FixtureDef();
         fixtureDef_player.shape = shape_player;
         fixtureDef_player.density = density;
         fixtureDef_player.restitution =  restitution;
         ball.createFixture(fixtureDef_player);
+        shape_player.dispose();
+	}
+	public void set_object_storage()
+	{
+		radius = storage_width;
+		delete_old_shape();
+		create_new_shape();
+	}
+	public void create(World world)
+	{
+		BodyDef bodyDef3 = new BodyDef();
+        bodyDef3.type = BodyDef.BodyType.DynamicBody;
+        ball = world.createBody(bodyDef3);
+      
         ball.setTransform(current_x, current_y, angle);
         ball.setLinearVelocity(0,0);
-        shape_player.dispose();
+        create_new_shape();    
 	}
 	public void set_linear_velocity(float vx, float vy)
 	{

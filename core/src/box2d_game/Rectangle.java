@@ -11,8 +11,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Rectangle extends Game_object
 {
 	Body square;
-	private float width_box;
-	private float height_box;
 	private PolygonShape  shape;
 	private FixtureDef fixtureDef = new FixtureDef();
 	
@@ -27,24 +25,15 @@ public class Rectangle extends Game_object
 	}
 	public void set_game_size()
 	{
-		
+		width_box = start_width;
+		height_box = start_height;
+		delete_old_shape();
+		create_new_shape();
 	}
-	public void change_size(float s)
+	public void set_object_storage()
 	{
-		if(inc_size == true)
-		{
-			width_box += s;
-			height_box += s;
-			inc_size = false;
-			dec_size = true;
-		}
-		if(dec_size == true)
-		{
-			width_box += s;
-			height_box += s;
-			dec_size = false;
-			inc_size = true;
-		}
+		width_box = storage_width;
+		height_box = storage_height;
 		delete_old_shape();
 		create_new_shape();
 	}
@@ -58,16 +47,14 @@ public class Rectangle extends Game_object
         square.createFixture(fixtureDef);
         shape.dispose();
 	}
-	public void change_box(float a, float b)
-	{
-		
-	}
 	public void set_box(float a, float b)
 	{
 		width_box = a;
 		height_box = b;
 		start_width = a;
 		start_height = b;
+		storage_width = a / 2;
+		storage_height = b / 2;
 	}
 	public float get_a()
 	{
