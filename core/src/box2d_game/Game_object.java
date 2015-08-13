@@ -18,7 +18,13 @@ public class Game_object {
 	protected float restitution;
 	protected String path_texture;
 	String type;
+	protected boolean inc_size = true;
+	protected boolean dec_size = true;
 	Game_object()
+	{
+		
+	}
+	public void change_size(float s)
 	{
 		
 	}
@@ -29,6 +35,10 @@ public class Game_object {
 	{
 	}
 	public void set_type(String type1)
+	{
+		
+	}
+	public void change_box(float a, float b)
 	{
 		
 	}

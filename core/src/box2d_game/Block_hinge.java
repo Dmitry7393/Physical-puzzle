@@ -2,6 +2,9 @@ package box2d_game;
 
 import java.util.Vector;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,10 +14,13 @@ public class Block_hinge {
 	World world;
 	Game_object obj1;
 	Game_object obj2;
-	private float cx, cy;
+	protected float cx, cy;
 	private float density ;
 	private float restitution;
 	private float width, height;
+	String static_texture;
+	String dynamic_texture;
+	
 	public void set_world(World world1)
 	{
 		world = world1;
@@ -38,11 +44,21 @@ public class Block_hinge {
 	{
 		 obj1 = new Static_body();
 		 obj1.set_coordinate(cx,cy);
-		 obj1.set_box(0.4f,  0.4f); 
+		 obj1.set_box(height/1.5f,  height/1.5f); 
+		 obj1.angle = 0;
 		 obj1.set_type("part_hinge_static");
-		 obj1.set_image("data/Bronze.jpg"); 
+		 obj1.set_image(static_texture); 
 		 obj1.create(world);
 		 return obj1;
+	}
+	public Game_object get_body()
+	{
+		return obj2;
+	}
+	public void set_image(String path_static, String path_dynamic)
+	{
+		static_texture = path_static;
+		dynamic_texture = path_dynamic;
 	}
 	public Game_object get_obj2()
 	{
@@ -52,7 +68,7 @@ public class Block_hinge {
 	    obj2.set_type("part_hinge_dynamic");
 	    obj2.set_fixture(density,restitution);
 	    obj2.create(world);
-	    obj2.set_image("data/Wood.jpg");
+	    obj2.set_image(dynamic_texture);
 		return obj2;
 	}
 	public void create()
