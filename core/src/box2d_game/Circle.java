@@ -21,8 +21,6 @@ public class Circle extends Game_object
 	public void set_radius(float r)
 	{
 		radius = r;
-		start_width = r;
-		storage_width = r/2;
 	}
 	public void set_fixture(float d, float r)
 	{
@@ -33,9 +31,26 @@ public class Circle extends Game_object
 	{
 		ball.destroyFixture(ball.getFixtureList().first());
 	}
-	public void set_game_size()
+	public void change_box_size(int t)
 	{
-		radius = start_width;
+		if(t == 1)
+		{
+			if(allow_inc == true)
+			{
+				radius = radius*2;
+				allow_inc = false;
+				allow_dec = true;
+			}
+		}
+		if(t == -1)
+		{
+			if(allow_dec == true)
+			{
+				radius = radius/2;
+				allow_dec = false;
+				allow_inc = true;
+			}
+		}
 		delete_old_shape();
 		create_new_shape();
 	}
@@ -43,18 +58,12 @@ public class Circle extends Game_object
 	{     
 		CircleShape shape_player = new CircleShape();
         shape_player.setRadius(radius);
-        FixtureDef fixtureDef_player= new FixtureDef();
+        FixtureDef fixtureDef_player = new FixtureDef();
         fixtureDef_player.shape = shape_player;
         fixtureDef_player.density = density;
         fixtureDef_player.restitution =  restitution;
         ball.createFixture(fixtureDef_player);
         shape_player.dispose();
-	}
-	public void set_object_storage()
-	{
-		radius = storage_width;
-		delete_old_shape();
-		create_new_shape();
 	}
 	public void create(World world)
 	{
@@ -71,6 +80,11 @@ public class Circle extends Game_object
 		v_x = vx;
 		v_y = vy;
 		ball.setLinearVelocity(v_x, v_y);
+	}
+	public boolean get_position_x() //if x > 16 - return true
+	{
+		if(ball.getPosition().x > 16) return true;
+		return false;
 	}
 	public void set_coordinate(float x, float y)
 	{

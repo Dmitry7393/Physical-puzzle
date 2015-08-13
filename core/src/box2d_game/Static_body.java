@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -16,6 +17,48 @@ public class Static_body extends Game_object {
 	Static_body()
 	{
 		
+	}
+	 public void delete_old_shape()
+	{
+		 groundBody.destroyFixture(groundBody.getFixtureList().first());
+	}
+	 public void create_new_shape()
+	 {
+       PolygonShape groundBox = new PolygonShape();  
+        groundBox.setAsBox(width_box, height_box); 
+        groundBody.createFixture(groundBox, 0.0f); 
+        groundBody.setTransform(current_x, current_y, angle);
+        groundBox.dispose();
+	 }
+	 public void change_box_size(int t)
+		{
+			if(t == 1)
+			{
+				if(allow_inc == true)
+				{
+					width_box = width_box*2;
+					height_box = height_box*2;
+					allow_inc = false;
+					allow_dec = true;
+				}
+			}
+			if(t == -1)
+			{
+				if(allow_dec == true)
+				{
+					width_box = width_box/2;
+					height_box = height_box/2;
+					allow_dec = false;
+					allow_inc = true;
+				}
+			}
+			delete_old_shape();
+			create_new_shape();
+		}
+	public boolean get_position_x() //if x > 16 - return true
+	{
+		if(groundBody.getPosition().x > 16) return true;
+		return false;
 	}
 	public void set_box(float a, float b)
 	{
@@ -52,11 +95,7 @@ public class Static_body extends Game_object {
         // Set its world position
         groundBodyDef.position.set(new Vector2(current_x, current_y));  
         groundBody = world.createBody(groundBodyDef);  
-        PolygonShape groundBox = new PolygonShape();  
-        groundBox.setAsBox(width_box, height_box); 
-        groundBody.createFixture(groundBox, 0.0f); 
-      
-        groundBox.dispose();
+        create_new_shape();
 	}
 	public void set_angle()
 	{

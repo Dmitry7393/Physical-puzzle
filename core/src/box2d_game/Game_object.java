@@ -15,27 +15,21 @@ public class Game_object {
 	protected float height_box;
 	protected float v_x;
 	protected float v_y;
-	public boolean mouse_moved = true;
+	public boolean mouse_moved = false;
 	protected float density;
 	protected float restitution;
 	protected String path_texture;
+	public boolean flag;
 	String type;
-	protected boolean inc_size = true;
-	protected boolean dec_size = true;
-	public float start_width, start_height;
-	public float storage_width, storage_height;
-	
-	public  float width_dynamic;
-	public float  height_dynamic;
+	protected boolean allow_inc = false;
+	protected boolean allow_dec = false;
 	Game_object()
 	{
 		
 	}
-	public void set_game_size()
+	public void change_box_size(int t)
 	{
-	}
-	public void set_object_storage()
-	{
+		
 	}
 	public void set_fixture(float d, float r)
 	{
@@ -85,6 +79,10 @@ public class Game_object {
 	public void start_position(float x, float y)
 	{
 
+	}
+	public boolean get_position_x() //if x > 16 - return true
+	{
+		return false;
 	}
 	public void set_radius(float r)
 	{

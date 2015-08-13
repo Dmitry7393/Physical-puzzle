@@ -21,19 +21,29 @@ public class Rectangle extends Game_object
 	public void delete_old_shape()
 	{
 		square.destroyFixture(square.getFixtureList().first());
-		// this.getBody().destroyFixture(this.getBody().getFixtureList().first());
 	}
-	public void set_game_size()
+	public void change_box_size(int t)
 	{
-		width_box = start_width;
-		height_box = start_height;
-		delete_old_shape();
-		create_new_shape();
-	}
-	public void set_object_storage()
-	{
-		width_box = storage_width;
-		height_box = storage_height;
+		if(t == 1)
+		{
+			if(allow_inc == true)
+			{
+				width_box = width_box*2;
+				height_box = height_box*2;
+				allow_inc = false;
+				allow_dec = true;
+			}
+		}
+		if(t == -1)
+		{
+			if(allow_dec == true)
+			{
+				width_box = width_box/2;
+				height_box = height_box/2;
+				allow_dec = false;
+				allow_inc = true;
+			}
+		}
 		delete_old_shape();
 		create_new_shape();
 	}
@@ -51,10 +61,6 @@ public class Rectangle extends Game_object
 	{
 		width_box = a;
 		height_box = b;
-		start_width = a;
-		start_height = b;
-		storage_width = a / 2;
-		storage_height = b / 2;
 	}
 	public float get_a()
 	{
@@ -66,6 +72,11 @@ public class Rectangle extends Game_object
 		current_y = y;
 		start_x = x;
 		start_y = y;
+	}
+	public boolean get_position_x() //if x > 16 - return true
+	{
+		if(square.getPosition().x > 16) return true;
+		return false;
 	}
 	public void set_start_position(float x, float y)
 	{

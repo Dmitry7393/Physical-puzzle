@@ -20,6 +20,22 @@ public class Spinning_block extends Game_object {
 	 {
 		 
 	 }
+	 public void create_new_shape()
+	 {
+	       PolygonShape shape = new PolygonShape();
+	        shape.setAsBox(width_box, height_box);
+	        FixtureDef fixtureDef = new FixtureDef();
+	        fixtureDef.shape = shape;
+	        fixtureDef.density = density;
+	        fixtureDef.restitution = restitution;
+	        obj2.createFixture(fixtureDef);
+	        shape.dispose();
+	 }
+	 public void delete_old_shape()
+	{
+		obj2.destroyFixture(obj2.getFixtureList().first());
+		// this.getBody().destroyFixture(this.getBody().getFixtureList().first());
+	}
 	 public void set_type(String type1)
 		{
 			type = type1;
@@ -44,14 +60,8 @@ public class Spinning_block extends Game_object {
 	        obj2 = world.createBody(bodyDef);
 	        obj2.setTransform(current_x, current_y, angle);
 	        obj2.setLinearVelocity(0,0);
-	       PolygonShape shape = new PolygonShape();
-	        shape.setAsBox(width_dynamic, height_dynamic);
-	        FixtureDef fixtureDef = new FixtureDef();
-	        fixtureDef.shape = shape;
-	        fixtureDef.density = density;
-	        fixtureDef.restitution = restitution;
-	        obj2.createFixture(fixtureDef);
-	        shape.dispose();
+	        create_new_shape();
+
 	        //create connect between two object
 	        RevoluteJointDef rjd = new RevoluteJointDef();
 		    Vector2 v = new Vector2(current_x, current_y);
@@ -78,10 +88,31 @@ public class Spinning_block extends Game_object {
 		{
 			width_box = a;
 			height_box = b;
-			start_width = a;
-			start_height = b;
-			storage_width = a / 2;
-			storage_height = b / 2;
+		}
+		public void change_box_size(int t)
+		{
+			if(t == 1)
+			{
+				if(allow_inc == true)
+				{
+					width_box = width_box*2;
+					height_box = height_box*2;
+					allow_inc = false;
+					allow_dec = true;
+				}
+			}
+			if(t == -1)
+			{
+				if(allow_dec == true)
+				{
+					width_box = width_box/2;
+					height_box = height_box/2;
+					allow_dec = false;
+					allow_inc = true;
+				}
+			}
+			delete_old_shape();
+			create_new_shape();
 		}
 		public void set_start_position(float x, float y)
 		{
@@ -96,11 +127,11 @@ public class Spinning_block extends Game_object {
 		}
 		public float get_a()
 		{
-			return width_dynamic;
+			return width_box;
 		}
 		public float get_b()
 		{
-			return height_dynamic;
+			return height_box;
 		}
 		public void set_fixture(float d, float r)
 		{
@@ -120,5 +151,10 @@ public class Spinning_block extends Game_object {
 		public void dispose()
 		{
 			textureRegion.getTexture().dispose();
+		}
+		public boolean get_position_x() //if x > 16 - return true
+		{
+			if(obj2.getPosition().x > 16) return true;
+			return false;
 		}
 }
