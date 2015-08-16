@@ -12,8 +12,6 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Static_body extends Game_object {
 	private   Body groundBody;
-	private float width_box;
-	private float height_box;
 	Static_body()
 	{
 		
@@ -26,7 +24,12 @@ public class Static_body extends Game_object {
 	 {
        PolygonShape groundBox = new PolygonShape();  
         groundBox.setAsBox(width_box, height_box); 
-        groundBody.createFixture(groundBox, 0.0f); 
+       // groundBody.createFixture(groundBox, 0.0f); //groundBox
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.restitution = 3.0f;
+        fixtureDef.shape = groundBox;
+        fixtureDef.isSensor = isSensor;
+        groundBody.createFixture(fixtureDef);
         groundBody.setTransform(current_x, current_y, angle);
         groundBox.dispose();
 	 }
@@ -121,5 +124,9 @@ public class Static_body extends Game_object {
 	public String get_type()
 	{
 		return type;
+	}
+	public void moveTo(float dx, float dy)
+	{
+		groundBody.setTransform(dx, dy, angle);
 	}
 }

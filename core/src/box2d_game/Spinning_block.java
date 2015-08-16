@@ -83,6 +83,7 @@ public class Spinning_block extends Game_object {
 		{
 			obj1.setTransform(dx, dy, angle);
 			obj2.setTransform(dx, dy, angle);
+			
 		}
 		public void set_box(float a, float b)
 		{

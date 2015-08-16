@@ -13,7 +13,6 @@ public class Circle extends Game_object
 {
 	Body ball;
     private float radius;
-    private float start_radius;
 	Circle()
 	{
 		
@@ -129,5 +128,9 @@ public class Circle extends Game_object
 	public String get_type()
 	{
 		return type;
+	}
+	public void moveTo(float dx, float dy)
+	{
+		ball.setTransform(dx, dy, angle);
 	}
 }

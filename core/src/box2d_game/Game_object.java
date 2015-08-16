@@ -10,7 +10,6 @@ public class Game_object {
 	public float angle = 0.0f;
 	protected TextureRegion textureRegion;
 	protected float start_x, start_y;
-	public boolean mouse_dragged = false;
 	protected float width_box;
 	protected float height_box;
 	protected float v_x;
@@ -23,9 +22,19 @@ public class Game_object {
 	String type;
 	protected boolean allow_inc = false;
 	protected boolean allow_dec = false;
+	protected float stock_start_x ;
+	protected float stock_start_y ;
+	protected boolean isSensor = false;
 	Game_object()
 	{
 		
+	}
+	public void set_coordinate(float x, float y)
+	{
+		
+	}
+	public void set_box(float a, float b)
+	{
 	}
 	public void change_box_size(int t)
 	{
@@ -41,9 +50,7 @@ public class Game_object {
 	{
 		
 	}
-	public void set_box(float a, float b)
-	{
-	}
+	
 	public String name_texture()
 	{
 		return "";
@@ -92,10 +99,7 @@ public class Game_object {
 	{
 		
 	}
-	public void set_coordinate(float x, float y)
-	{
-		
-	}
+
 	public void set_start_position(float x, float y)
 	{
 		

@@ -13,7 +13,6 @@ public class Rectangle extends Game_object
 	Body square;
 	private PolygonShape  shape;
 	private FixtureDef fixtureDef = new FixtureDef();
-	
 	Rectangle()
 	{
 		
@@ -134,5 +133,9 @@ public class Rectangle extends Game_object
 	public void dispose()
 	{
 		textureRegion.getTexture().dispose();
+	}
+	public void moveTo(float dx, float dy)
+	{
+		square.setTransform(dx, dy, angle);
 	}
 }
