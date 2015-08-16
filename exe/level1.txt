@@ -1,17 +1,12 @@
-static_body 23.905138 25.226667 2.0 0.05 0.0 data/black.png true
-static_body 23.798418 19.84 2.0 0.05 0.0 data/black.png true
-static_body 15.901184 12.0 0.1 20.2 0.0 data/black.png false
-rectangle 24.385374 15.84 1.0 1.0 15.0 0.0 0.0 data/Steel-Box.jpg true
-rectangle 22.571146 21.12 1.0 1.0 15.0 0.0 0.0 data/Steel-Box.jpg true
-rectangle 24.97233 21.013334 1.0 1.0 3.6 0.001 0.0 data/box.jpg true
-static_body -13.44664 25.28 4.5 0.6 0.8000001 image/wood1.jpg false
-ball -14.727272 28.213333 2.0 4.1 0.3 0.0 data/ball.png false
-static_body -0.6936756 5.76 5.0 4.0 0.0 image/box.png false
-block_hinge -8.110672 14.986667 6.0 0.63 9.0 0.4 0.0 image/wood2.jpg false
-static_body 22.784584 27.306667 2.25 0.3 -1.4901161E-8 image/wood1.jpg true
-static_body 23.638342 14.293333 2.0 0.05 0.0 data/black.png true
-static_body -22.571146 0.37333298 4.5 0.6 0.0 image/wood1.jpg false
-static_body -13.66008 0.37333298 4.5 0.6 0.0 image/wood1.jpg false
-static_body -4.96245 0.37333298 4.5 0.6 0.0 image/wood1.jpg false
-static_body 4.001977 0.42666626 4.5 0.6 0.0 image/wood1.jpg false
-static_body 11.47233 0.37333298 4.5 0.6 0.0 image/wood1.jpg false
+block_hinge -2.4545448 15.413333 6.0 0.63 9.0 0.4 0.0 image/wood2.jpg false
+ball -10.13834 29.333334 2.0 4.1 0.3 0.0 data/ball.png false
+rectangle 20.54348 11.2 1.0 1.0 15.0 0.0 0.0 data/Steel-Box.jpg true
+rectangle 24.171936 23.786667 1.0 1.0 15.0 0.0 0.0 data/Steel-Box.jpg true
+rectangle 21.503954 23.84 1.0 1.0 3.6 0.001 0.0 data/box.jpg true
+static_body 6.243082 5.12 4.0 1.0 0.0 image/invisible.png false
+static_body -8.377471 25.76 4.5 0.6 0.59999996 image/texture_wood.png false
+static_body 6.7233205 4.6933327 4.5 0.6 0.0 image/texture_wood.png false
+static_body 10.565218 8.48 4.5 0.6 -1.5676 image/texture_wood.png false
+static_body 2.8280644 8.586667 4.5 0.6 -1.5676 image/texture_wood.png false
+static_body 22.944664 17.12 2.25 0.3 0.0 image/texture_wood.png true
+static_body 22.464426 18.453333 2.25 0.3 0.0 image/texture_wood.png true
