@@ -26,9 +26,11 @@ public class Static_body extends Game_object {
         groundBox.setAsBox(width_box, height_box); 
        // groundBody.createFixture(groundBox, 0.0f); //groundBox
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.restitution = 3.0f;
+        fixtureDef.restitution = restitution;
         fixtureDef.shape = groundBox;
         fixtureDef.isSensor = isSensor;
+        fixtureDef.filter.categoryBits = 1;  //This is what I am  = 1
+        fixtureDef.filter.maskBits = (short)maskBits;  //This is what  I collide with = 2
         groundBody.createFixture(fixtureDef);
         groundBody.setTransform(current_x, current_y, angle);
         groundBox.dispose();
@@ -127,6 +129,7 @@ public class Static_body extends Game_object {
 	}
 	public void moveTo(float dx, float dy)
 	{
+		
 		groundBody.setTransform(dx, dy, angle);
 	}
 }

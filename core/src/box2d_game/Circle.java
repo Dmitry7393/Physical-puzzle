@@ -61,6 +61,8 @@ public class Circle extends Game_object
         fixtureDef_player.shape = shape_player;
         fixtureDef_player.density = density;
         fixtureDef_player.restitution =  restitution;
+        fixtureDef_player.filter.categoryBits = 1;  //This is what I am  = 1
+        fixtureDef_player.filter.maskBits = 1;  //This is what  I collide with = 2
         ball.createFixture(fixtureDef_player);
         shape_player.dispose();
 	}

@@ -28,6 +28,8 @@ public class Spinning_block extends Game_object {
 	        fixtureDef.shape = shape;
 	        fixtureDef.density = density;
 	        fixtureDef.restitution = restitution;
+	        fixtureDef.filter.categoryBits = 1;  //This is what I am  = 1
+	        fixtureDef.filter.maskBits = 1;  //This is what  I collide with = 2
 	        obj2.createFixture(fixtureDef);
 	        shape.dispose();
 	 }

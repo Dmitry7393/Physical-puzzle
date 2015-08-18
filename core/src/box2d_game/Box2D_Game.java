@@ -45,8 +45,9 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Body b2  = null;
     TextureRegion textureRegion;
     private float width_game_field = 18.0f;
-    private String path_to_level = "D:/level2.txt";
+    private String path_to_level = "D:/level3.txt";
     private boolean editor_mode = false;
+    int count_check = 0; 
     @Override
     public void create()
     {
@@ -74,12 +75,14 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         font.setColor(Color.BLACK);
 
         world.setContactListener(new ContactListener() {
+        	
             @Override
             public void beginContact(Contact contact) 
             {
+            	//System.out.println("setContactListener");
                 // Check to see if the collision is between the second sprite and the bottom of the screen
                 // If so apply a random amount of upward force to both objects... just because
-             if(level == 1 || level == 2)
+            /* if(level == 1 || level == 2)
              {
             	 if(b1 != null && b2 != null)
             	 {
@@ -93,7 +96,50 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     	            		   game_mode = false;
     	                    }  
             	 }  
-             }	
+             }	*/
+            /* if(count_check <= 1)
+             {
+            	 Body temp_moved;
+	             Body temp_game;
+	             for(int i = 0; i < object.size(); i++) //mouse_moved
+	             {
+		              if(object.get(i).mouse_moved == true)
+		              {
+		               temp_moved = object.get(i).get_body();
+		                  for(int j = 0; j < object.size(); j++) //game object
+		                  {
+			                 //  if(i != j)  // && object.get(j).mouse_moved == false
+			                  // {
+			                    temp_game = object.get(j).get_body();
+			                    if((contact.getFixtureA().getBody() == temp_moved &&
+			                                     contact.getFixtureB().getBody() == temp_game)
+			                                     ||
+			                                     (contact.getFixtureA().getBody() == temp_game &&
+			                                             contact.getFixtureB().getBody() == temp_moved))  
+			                            {
+				                    		System.out.println("collsion1!");
+				                    		if(object.get(i).mouse_moved == true)
+				                    		{
+				                    			game_mode = false;
+				                    	/*		object.get(i).set_coordinate(21, 4);
+				                    		}
+				                    		/*if(object.get(j).mouse_moved == true)
+				                    		{
+				                    			game_mode = false;
+				                    			object.get(j).set_coordinate(21, 4);
+				                    		}
+				                    		*/
+			                        //    }
+			                               
+			                  // }
+		                   
+		              /*    }
+		              }
+	             
+	             }
+	             count_check++;
+             }*/
+	            
             }
             @Override
             public void endContact(Contact contact) {
@@ -115,6 +161,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         	obj.allow_inc = true;
         	obj.stock_start_x = x;
         	obj.stock_start_y = y;
+        	
         }
         else
         {
@@ -156,7 +203,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         obj2.set_image(name_texture);
         object.addElement(obj2);    
     }
-   public void  add_static_body(float x, float y,  float box_width, float box_height, float angle, String name_texture, boolean mouse_moved, boolean isSensor)
+   public void  add_static_body(float x, float y,  float box_width, float box_height, float restitution, float angle, String name_texture, boolean mouse_moved, boolean isSensor)
     {
         Game_object obj = new Static_body();
         if(x > width_game_field)
@@ -165,6 +212,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         	obj.allow_inc = true;
         	obj.stock_start_x = x;
         	obj.stock_start_y = y;
+        	//obj.maskBits = 2;
         }
         else
         {
@@ -173,6 +221,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         obj.set_coordinate(x, y);
         obj.set_box(box_width, box_height);
         obj.angle = angle;
+        obj.restitution = restitution;
         obj.isSensor = isSensor;
         obj.mouse_moved = mouse_moved;
         obj.set_type("static_body");
@@ -241,10 +290,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             	   }
         		   if(arr[0].equals("static_body"))
             	   {
-        			   add_static_body(Float.valueOf(arr[1]), Float.valueOf(arr[2]),
-        					   		   Float.valueOf(arr[3]), Float.valueOf(arr[4]),  
-        					   		   Float.valueOf(arr[5]), String.valueOf(arr[6]),
-        					   		  Boolean.valueOf(arr[7]), Boolean.valueOf(arr[7]));
+        			   add_static_body(Float.valueOf(arr[1]), Float.valueOf(arr[2]), //x and y
+        					   		   Float.valueOf(arr[3]), Float.valueOf(arr[4]),  //width and height
+        					   		   Float.valueOf(arr[5]), Float.valueOf(arr[6]),  //restitution_angle
+        					   		   String.valueOf(arr[7]),
+        					   		   Boolean.valueOf(arr[8]), Boolean.valueOf(arr[9]));
             	   }
         		  
         	   }   
@@ -367,6 +417,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         if(keycode == Input.Keys.SPACE)
         {
            game_mode = !game_mode;
+           count_check = 0;
            for(int i = 0; i < object.size(); i++)
            {
         	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
@@ -380,45 +431,60 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         {
         	editor_mode = true;
         }
+        if(keycode == Input.Keys.CONTROL_LEFT)
+        {
+        	for(int i = 0; i < object.size(); i++)
+        	{
+        		//if(object.get(i).mouse_moved == true)
+        		//	object.get(i).get_body().setTransform(3, 11, 10);
+        		object.get(i).set_coordinate(3, 11);
+        		object.get(i).moveTo(3, 11);
+        	}
+        	
+        }
         if(editor_mode == true)
         {
         	if(keycode == Input.Keys.NUM_1)
             {
-            	add_rectangle((float)random_int(-24, 12), (float)random_int(0, 26), 5.0f,  0.5f, (float)4, 0.1f,0.0f,  "data/Wood.jpg", true);     
+            	add_rectangle((float)random_int(-24, 12), (float)random_int(0, 26), 3.0f,  0.5f, 2, 0.1f,0.0f,  "data/Wood.jpg", true);     
             }
             if(keycode == Input.Keys.NUM_2)
             {
-            	add_ball(random_int(-24, 12), random_int(0, 26), 2f, 4.1f,  0.3f, 0.0f, "data/ball.png", true);    
+            	add_ball(random_int(-24, 12), random_int(0, 26), 1.5f, //x y radius
+            			2.1f,  0.2f, 0.0f, "data/ball.png", true);  //density, rest, angle  
             }
             if(keycode == Input.Keys.NUM_3)
             {
-            	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f, 15.0f, 0.0f,0.0f, "data/Steel-Box.jpg", true);
+            	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
+            			15.0f, 0.1f, 0.0f, "data/Steel-Box.jpg", true);
             	
             }
             if(keycode == Input.Keys.NUM_4)
             {
-               add_rectangle(random_int(-20, 12), random_int(0, 21), 2.0f,  2.0f, 3.6f, 0.001f, 0.0f,"data/box.jpg", true);
+               add_rectangle(random_int(-20, 12), random_int(0, 21), 2.0f,  2.0f, 
+            		   3.6f, 0.2f, 0.0f,"data/box.jpg", true);
             }
             if(keycode == Input.Keys.NUM_5)
             {
-            	add_static_body(0, 1, 4.5f,  0.6f, 0.0f, "image/texture_wood.png", true, false);
+            	add_static_body(0, 1, 4.5f,  0.6f, 0.0f, 0.0f, "image/texture_wood.png", true, false);
             }
             if(keycode == Input.Keys.NUM_6)
             {
             	
-            	add_block_hinge(3, 1, 6, 0.63f, 9, 0.4f, 0.0f,  "image/wood2.jpg", true);
+            	add_block_hinge(3, 1, 5.5f, 0.6f, 9, 0.4f, 0.0f,  "image/wood2.jpg", true);
             }
             if(keycode == Input.Keys.NUM_7)
             {
-            	add_static_body(3, 5, 3.0f,  2.1f, 0.0f, "image/spring.png", true, false);
+            	add_static_body(3, 5, 3.0f,  2.1f,  1.5f, 0.0f, "image/spring.png", true, false);
             }
             if(keycode == Input.Keys.NUM_8)
             {
-            	 add_static_body(3, 5, 0.1f,  20.2f, 0.0f, "data/black.png", true, false);
+            	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
+            			1.0f, 0.1f, 0.0f, "image/paper_box.jpg", true);
             }
             if(keycode == Input.Keys.NUM_9)
             {
-            	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, "image/invisible.png", true, true);
+            	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, 0.0f, "image/invisible.png", true, true);
             }
             if(keycode == Input.Keys.C)
             {
@@ -447,7 +513,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             		{
             			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
             					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
-            					object.get(j).angle + " " + object.get(j).path_texture + " " + object.get(j).get_position_x()
+								object.get(j).restitution + " " + object.get(j).angle + " " +
+            					object.get(j).path_texture + " " + object.get(j).get_position_x()
             					+ " " + object.get(j).isSensor;
                 		w.write(str);
             		}
@@ -496,11 +563,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                   {
                	    if(hitBody == object.get(i).get_body())
                	    {
-               	    	object.get(i).get_body().setActive(false);
-               	    	//object.get(i).get_body().setUserData(null);
-               	    	//world.destroyBody(object.get(i).get_body());
-               	    	object.remove(i);
-               	    	break;
+	               	    	object.get(i).get_body().setActive(false);
+	               	    	object.get(i).get_body().setUserData(null);
+	               	    	world.destroyBody(object.get(i).get_body());
+	               	    	object.remove(i);
+	               	    	break;
                	    }
                   }
             }

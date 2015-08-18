@@ -25,6 +25,7 @@ public class Game_object {
 	protected float stock_start_x ;
 	protected float stock_start_y ;
 	protected boolean isSensor = false;
+	protected int maskBits = 1;
 	Game_object()
 	{
 		

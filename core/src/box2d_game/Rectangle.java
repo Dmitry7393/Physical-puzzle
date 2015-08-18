@@ -53,6 +53,8 @@ public class Rectangle extends Game_object
         fixtureDef.shape = shape;
         fixtureDef.density = density;
         fixtureDef.restitution = restitution;
+      //  fixtureDef.filter.categoryBits = 1;  //This is what I am  = 1
+     //   fixtureDef.filter.maskBits = 1;  //This is what  I collide with = 2
         square.createFixture(fixtureDef);
         shape.dispose();
 	}
@@ -97,6 +99,7 @@ public class Rectangle extends Game_object
 	        square.setTransform(current_x, current_y, angle);
 	        square.setLinearVelocity(0,0);
 	        create_new_shape();
+	     //   square.resetMassData();
 	}
 	public void set_fixture(float d, float r)
 	{
