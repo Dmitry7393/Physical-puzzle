@@ -40,12 +40,12 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
-    private int level = 2;
+    private int level = 3;
     Body b1  = null;
     Body b2  = null;
     TextureRegion textureRegion;
     private float width_game_field = 18.0f;
-    private String path_to_level = "D:/level3.txt";
+    private String path_to_level = "level3.txt";
     private boolean editor_mode = false;
     int count_check = 0; 
     @Override
@@ -68,6 +68,17 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         bodyEdgeScreen = world.createBody(bodyDef_bottom);
         bodyEdgeScreen.createFixture(fixtureDef_bottom);
         edgeShape_bottom.dispose();
+      //Right line
+              BodyDef bodyDef_right = new BodyDef();
+              bodyDef_right.type = BodyDef.BodyType.StaticBody;
+               bodyDef_right.position.set(0,0);
+                FixtureDef fixtureDef_right = new FixtureDef();
+                EdgeShape edgeShape_right = new EdgeShape();
+                edgeShape_right.set(18.7f, 1, 18.7f, 54);
+                fixtureDef_right.shape = edgeShape_right;
+             bodyEdgeScreen = world.createBody(bodyDef_right);
+                bodyEdgeScreen.createFixture(fixtureDef_right);
+              edgeShape_right.dispose();
         Gdx.input.setInputProcessor(this);
        
         debugRenderer = new Box2DDebugRenderer();
@@ -82,8 +93,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             	//System.out.println("setContactListener");
                 // Check to see if the collision is between the second sprite and the bottom of the screen
                 // If so apply a random amount of upward force to both objects... just because
-            /* if(level == 1 || level == 2)
-             {
+           //  if(level == 1 || level == 2)
+         //    {
             	 if(b1 != null && b2 != null)
             	 {
     	            	   if((contact.getFixtureA().getBody() == b1 &&
@@ -96,8 +107,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     	            		   game_mode = false;
     	                    }  
             	 }  
-             }	*/
-            /* if(count_check <= 1)
+            // }	
+          /*   if(count_check <= 1)
              {
             	 Body temp_moved;
 	             Body temp_game;
@@ -121,25 +132,17 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
 				                    		if(object.get(i).mouse_moved == true)
 				                    		{
 				                    			game_mode = false;
-				                    	/*		object.get(i).set_coordinate(21, 4);
+				                    			object.get(i).set_coordinate(21, 4);
 				                    		}
-				                    		/*if(object.get(j).mouse_moved == true)
-				                    		{
-				                    			game_mode = false;
-				                    			object.get(j).set_coordinate(21, 4);
-				                    		}
-				                    		*/
-			                        //    }
+			                            }
 			                               
-			                  // }
+			                   }
 		                   
-		              /*    }
+		                  }
 		              }
 	             
-	             }
-	             count_check++;
-             }*/
-	            
+	             }*/
+	             count_check++;  
             }
             @Override
             public void endContact(Contact contact) {
@@ -564,8 +567,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                	    if(hitBody == object.get(i).get_body())
                	    {
 	               	    	object.get(i).get_body().setActive(false);
-	               	    	object.get(i).get_body().setUserData(null);
-	               	    	world.destroyBody(object.get(i).get_body());
+	               	    	//object.get(i).get_body().setUserData(null);
+	               	    	//world.destroyBody(object.get(i).get_body());
 	               	    	object.remove(i);
 	               	    	break;
                	    }

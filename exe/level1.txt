@@ -9,4 +9,4 @@ static_body 6.7233205 4.6933327 4.5 0.6 0.0 image/texture_wood.png false
 static_body 10.565218 8.48 4.5 0.6 -1.5676 image/texture_wood.png false
 static_body 2.8280644 8.586667 4.5 0.6 -1.5676 image/texture_wood.png false
 static_body 22.944664 17.12 2.25 0.3 0.0 image/texture_wood.png true
-static_body 22.464426 18.453333 2.25 0.3 0.0 image/texture_wood.png true
+static_body -9.498023 1.8133335 4.5 0.6 0.0 image/texture_wood.png false
