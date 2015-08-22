@@ -19,16 +19,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
-import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 public class Box2D_Game extends ApplicationAdapter implements InputProcessor {	  
 	World world;
 	SpriteBatch batch;
@@ -63,9 +57,6 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         batch = new SpriteBatch();
         
         Load_level(path_to_level);
-         r = new Rope();
-        r.createRope(world, 9);
-        
         //Bottom line
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("image/background.png")));  
         BodyDef bodyDef_bottom = new BodyDef();
@@ -266,6 +257,18 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
 	   	g.create(world);
 	   	object.addElement(g);
 	}
+   public void add_rope(float x, float y, int length, float density, String spr_f, String spr_rope, String spr_ball, boolean mouse_moved)
+   {
+       Game_object r = new Rope();
+       r.set_coordinate(x, y);
+       r.set_type("rope");
+       r.mouse_moved = mouse_moved;
+       r.density = density;
+       r.createRope(world, length);
+       r.set_texture_rope(spr_f, spr_rope, spr_ball);
+       r.path_texture = "";
+       object.add(r);
+   }
     public static int random_int(int Min, int Max)
     {
     	return (Min + (int)(Math.random() * ((Max - Min) + 1)));
@@ -308,6 +311,13 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         					   		   Float.valueOf(arr[5]), Float.valueOf(arr[6]),  //restitution_angle
         					   		   String.valueOf(arr[7]),
         					   		   Boolean.valueOf(arr[8]), Boolean.valueOf(arr[9]));
+            	   }
+        		   if(arr[0].equals("rope"))
+            	   {
+        			   //add_rope(-3, 25, 9, 233.0f, "image/nail.png", "image/rope.jpg", "data/ball.png", true);
+        			   add_rope(Float.valueOf(arr[1]), Float.valueOf(arr[2]), //x and y
+        					   		   Integer.valueOf(arr[3]), Float.valueOf(arr[4]),  //length, density
+        					   		   String.valueOf(arr[5]),String.valueOf(arr[6]),String.valueOf(arr[7]), Boolean.valueOf(arr[8]));
             	   }
         		  
         	   }   
@@ -389,13 +399,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         	for(int i = 0; i < object.size(); i++)
         	{
         		object.get(i).draw(batch);
-        	 	batch.draw(object.get(i).get_texture(), object.get(i).get_body().getPosition().x-1, object.get(i).get_body().getPosition().y-1, // the bottom left corner of the box, unrotated
-        				1f, 1f, // the rotation center relative to the bottom left corner of the box
-        				2,  2, // the width and height of the box
-        				object.get(i).get_a(), object.get(i).get_b(), // the scale on the x- and y-axis
-        				MathUtils.radiansToDegrees * object.get(i).get_body().getAngle()); // the rotation angle*/
         	}
-        	r.draw_texture(batch, "data/ball.png", "image/rope.jpg", "image/nail.png");
         } 
         batch.end();
         debugRenderer.render(world, debugMatrix);
@@ -499,7 +503,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             }
             if(keycode == Input.Keys.NUM_9)
             {
-            	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, 0.0f, "image/invisible.png", true, true);
+            	add_rope(-3, 25, 9, 233.0f, "image/nail.png", "image/rope.jpg", "data/ball.png", true);
             }
             if(keycode == Input.Keys.C)
             {
@@ -549,6 +553,14 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             					object.get(j).density + " " + object.get(j).restitution + " " +
             					object.get(j).angle + " " +
             					object.get(j).path_texture  + " " + object.get(j).get_position_x();
+                		w.write(str);
+            		}
+            		if(object.get(j).get_type() == "rope")
+            		{
+            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+            					object.get(j).get_length_rope() + " " + object.get(j).density + " " +
+            					object.get(j).spr_foundation + " " + object.get(j).spr_rope + " " + object.get(j).spr_ball
+            					+ " " + object.get(j).mouse_moved;
                 		w.write(str);
             		}
             	}

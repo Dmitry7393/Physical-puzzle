@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -163,6 +164,10 @@ public class Spinning_block extends Game_object {
 		}
 		public void draw(SpriteBatch batch)
 		{
-			System.out.println("draw from class Spinning block");
+		 	batch.draw(textureRegion, obj2.getPosition().x-1, obj2.getPosition().y-1, // the bottom left corner of the box, unrotated
+					1f, 1f, // the rotation center relative to the bottom left corner of the box
+					2,  2, // the width and height of the box
+					get_a(), get_b(), // the scale on the x- and y-axis
+					MathUtils.radiansToDegrees * obj2.getAngle()); // the rotation angle*/
 		}
 }

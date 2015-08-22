@@ -27,6 +27,10 @@ public class Game_object {
 	protected float stock_start_y ;
 	protected boolean isSensor = false;
 	protected int maskBits = 1;
+	//for rope
+	String spr_foundation;
+	String spr_rope;
+	String spr_ball;
 	Game_object()
 	{
 		
@@ -118,10 +122,23 @@ public class Game_object {
 	{
 		  
 	}
+	public void set_texture_rope(String spr_foundation, String spr_rope, String spr_ball)
+	{
+		
+	}
 	public void draw(SpriteBatch batch)
 	{
 		
 	}
+	//for rope
+	public int get_length_rope()
+	{
+		return 0;
+	}
+	public void createRope(World world, int length)
+    {
+	 
+    }
 	public float rotation_center_x = 1f;
 	public float rotation_center_y = 1f;
 	public float width = 2f;

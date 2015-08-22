@@ -3,6 +3,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -144,6 +145,10 @@ public class Rectangle extends Game_object
 	}
 	public void draw(SpriteBatch batch)
 	{
-		System.out.println("draw from class Rectangle");
+	 	batch.draw(textureRegion, square.getPosition().x-1, square.getPosition().y-1, // the bottom left corner of the box, unrotated
+				1f, 1f, // the rotation center relative to the bottom left corner of the box
+				2,  2, // the width and height of the box
+				get_a(), get_b(), // the scale on the x- and y-axis
+				MathUtils.radiansToDegrees * square.getAngle()); // the rotation angle*/
 	}
 }
