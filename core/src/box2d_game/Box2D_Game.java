@@ -19,11 +19,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.RopeJoint;
+import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 public class Box2D_Game extends ApplicationAdapter implements InputProcessor {	  
 	World world;
 	SpriteBatch batch;
@@ -40,14 +45,90 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
-    private int level = 3;
+    private int level = 4;
     Body b1  = null;
     Body b2  = null;
     TextureRegion textureRegion;
     private float width_game_field = 18.0f;
-    private String path_to_level = "level3.txt";
+    private String path_to_level = "D:/level4.txt";
     private boolean editor_mode = false;
     int count_check = 0; 
+    private Body[] createRope(int length)
+    {
+    	//Create static body 
+    	Body foundation;
+    	 // Create our body definition
+        BodyDef groundBodyDef =new BodyDef();  
+        // Set its world position
+        groundBodyDef.position.set(new Vector2(-3, 25));  
+        foundation = world.createBody(groundBodyDef);  
+        PolygonShape groundBox = new PolygonShape();  
+        groundBox.setAsBox(1, 1); 
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.restitution = 0.1f;
+        fixtureDef.shape = groundBox;
+        foundation.createFixture(fixtureDef);
+        groundBox.dispose();
+    	////////////////////////
+    	 Body[] segments = new Body[length];
+    	 RevoluteJoint[] joints = new RevoluteJoint[length-1];
+    	 
+    	 BodyDef bodyDef = new BodyDef();
+    	 bodyDef.type = BodyType.DynamicBody;
+    	 float width = 1.5f;  float height = 3f;
+    	 PolygonShape shape = new PolygonShape();
+    	 shape.setAsBox(width/2, height/2);
+    	 for(int i = 0; i < segments.length; i++)
+    	 {
+    		 segments[i] = world.createBody(bodyDef);
+    		 segments[i].createFixture(shape, 2);
+    		 segments[i].setTransform(foundation.getPosition().x+3*i, foundation.getPosition().y, 0);
+    	 }
+    	 RevoluteJointDef jointDef = new RevoluteJointDef();
+    	 jointDef.localAnchorA.y = -height/2;
+    	 jointDef.localAnchorB.y = height/2;
+    	 for(int i = 0; i < joints.length; i++)
+    	 {
+    		 jointDef.bodyA = segments[i];
+    		 jointDef.bodyB = segments[i+1];
+    		 joints[i] = (RevoluteJoint)world.createJoint(jointDef);
+    	 }
+	        //create connect between two object
+	        RevoluteJointDef rjd = new RevoluteJointDef();
+		    Vector2 v = new Vector2(foundation.getPosition().x, foundation.getPosition().y);
+		    rjd.initialize(foundation, segments[0], v);
+		    rjd.motorSpeed = 100.0f;
+		    rjd.enableLimit = false;
+		    rjd.enableMotor = true;
+		    rjd.collideConnected = false;
+		    world.createJoint(rjd);
+        	//Create ball
+		    Body ball;
+			BodyDef bodyDef3 = new BodyDef();
+	        bodyDef3.type = BodyDef.BodyType.DynamicBody;
+	        ball = world.createBody(bodyDef3);
+	      
+	        ball.setTransform(segments[length-1].getPosition().x, segments[length-1].getPosition().y, 0);
+	        ball.setLinearVelocity(0,0);
+	    	CircleShape shape_player = new CircleShape();
+	        shape_player.setRadius(3);
+	        FixtureDef fixtureDef_player = new FixtureDef();
+	        fixtureDef_player.shape = shape_player;
+	        fixtureDef_player.density = 6;
+	        fixtureDef_player.restitution =  0.1f;
+	        ball.createFixture(fixtureDef_player);
+	        shape_player.dispose();  
+	        //create joint
+	        RevoluteJointDef rjd2 = new RevoluteJointDef();
+		    Vector2 v2 = new Vector2(ball.getPosition().x, ball.getPosition().y);
+		    rjd2.initialize(ball, segments[length-1], v2);
+		    rjd2.motorSpeed = 100.0f;
+		    rjd2.enableLimit = false;
+		    rjd2.enableMotor = true;
+		    rjd2.collideConnected = false;
+		    world.createJoint(rjd2);
+    	 return segments;
+    }
     @Override
     public void create()
     {
@@ -55,7 +136,9 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         camera.position.set(0, 16, 0);
         world = new World(new Vector2(0, -20.0f),  false);
         batch = new SpriteBatch();
+        
         Load_level(path_to_level);
+        createRope(7);
         //Bottom line
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("image/background.png")));  
         BodyDef bodyDef_bottom = new BodyDef();
