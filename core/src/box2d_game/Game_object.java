@@ -1,4 +1,5 @@
 package box2d_game;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
@@ -116,6 +117,10 @@ public class Game_object {
 	public void set_image(String path) //
 	{
 		  
+	}
+	public void draw(SpriteBatch batch)
+	{
+		
 	}
 	public float rotation_center_x = 1f;
 	public float rotation_center_y = 1f;

@@ -64,7 +64,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         
         Load_level(path_to_level);
          r = new Rope();
-        r.createRope(world, 7);
+        r.createRope(world, 9);
         
         //Bottom line
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("image/background.png")));  
@@ -388,13 +388,14 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     				0.0f); // the rotation angle
         	for(int i = 0; i < object.size(); i++)
         	{
+        		object.get(i).draw(batch);
         	 	batch.draw(object.get(i).get_texture(), object.get(i).get_body().getPosition().x-1, object.get(i).get_body().getPosition().y-1, // the bottom left corner of the box, unrotated
         				1f, 1f, // the rotation center relative to the bottom left corner of the box
         				2,  2, // the width and height of the box
         				object.get(i).get_a(), object.get(i).get_b(), // the scale on the x- and y-axis
         				MathUtils.radiansToDegrees * object.get(i).get_body().getAngle()); // the rotation angle*/
         	}
-        	r.draw_texture(batch, "data/ball.png", "data/Bronze.jpg");
+        	r.draw_texture(batch, "data/ball.png", "image/rope.jpg", "image/nail.png");
         } 
         batch.end();
         debugRenderer.render(world, debugMatrix);

@@ -1,6 +1,7 @@
 package box2d_game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -134,5 +135,9 @@ public class Circle extends Game_object
 	public void moveTo(float dx, float dy)
 	{
 		ball.setTransform(dx, dy, angle);
+	}
+	public void draw(SpriteBatch batch)
+	{
+		System.out.println("draw from class cicle");
 	}
 }
