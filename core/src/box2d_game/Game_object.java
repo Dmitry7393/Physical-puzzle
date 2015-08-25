@@ -1,4 +1,4 @@
-package box2d_game;
+package game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -27,10 +27,13 @@ public class Game_object {
 	protected float stock_start_y ;
 	protected boolean isSensor = false;
 	protected int maskBits = 1;
+	protected float start_linearvelocity_x;
+	protected float start_linearvelocity_y;
 	//for rope
 	String spr_foundation;
 	String spr_rope;
 	String spr_ball;
+	public  World w;
 	Game_object()
 	{
 		

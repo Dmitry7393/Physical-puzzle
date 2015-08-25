@@ -11,11 +11,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Circle extends Game_object
+public class Particle extends Game_object
 {
 	Body ball;
     private float radius;
-	Circle()
+    Particle()
 	{
 		
 	}
@@ -102,7 +102,7 @@ public class Circle extends Game_object
 		current_y = y;
 		ball.setTransform(current_x, current_y, angle);
 		ball.setAngularVelocity(0.0f);
-		ball.setLinearVelocity(0.0f, 0.0f);
+		ball.setLinearVelocity(start_linearvelocity_x, start_linearvelocity_y);
 	}
 	public float get_a()
 	{
@@ -139,7 +139,7 @@ public class Circle extends Game_object
 	}
 	public void draw(SpriteBatch batch)
 	{
-	 	batch.draw(textureRegion, ball.getPosition().x-1, ball.getPosition().y-1, // the bottom left corner of the box, unrotated
+	 	/*batch.draw(textureRegion, ball.getPosition().x-1, ball.getPosition().y-1, // the bottom left corner of the box, unrotated
 				1f, 1f, // the rotation center relative to the bottom left corner of the box
 				2,  2, // the width and height of the box
 				get_a(), get_b(), // the scale on the x- and y-axis

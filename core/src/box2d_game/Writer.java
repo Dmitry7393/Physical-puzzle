@@ -1,4 +1,4 @@
-package box2d_game;
+package game;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package box2d_game;
+package game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,8 +18,9 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 // createRope(8);
 public class Rope extends Game_object {
-	public float radius = 2.0f;
+	private float radius1 = 2.0f;
 	private  Body ball;
+	
 	private Body foundation;
 	private int count_block;
 	private Body[] segments;
@@ -27,8 +28,8 @@ public class Rope extends Game_object {
 	private float[]  start_position_y;
 	private float start_position_ball_x;
 	private float start_position_ball_y;
-	private float width_rope = 0.5f;
-	private float height_rope = 2.0f;
+	private float width_rope =  1f; //0.5f;
+	private float height_rope = 2f; //2.0f;
 	 TextureRegion textureRegion ;   
 	 TextureRegion textureRegion2;
 	 TextureRegion textureRegion_static ;
@@ -45,7 +46,7 @@ public class Rope extends Game_object {
         groundBodyDef.position.set(new Vector2(current_x, current_y));  
         foundation = world.createBody(groundBodyDef);  
         CircleShape shape_foundation = new CircleShape();
-        shape_foundation.setRadius(1); 
+        shape_foundation.setRadius(radius1/2); 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.restitution = 0.1f;
         fixtureDef.shape = shape_foundation;
@@ -62,13 +63,16 @@ public class Rope extends Game_object {
     	 {
     		 segments[i] = world.createBody(bodyDef);
     		 segments[i].createFixture(shape, density);
-    		 segments[i].setTransform(foundation.getPosition().x+2*i, foundation.getPosition().y, 1.57f); //-2
     		 start_position_x[i] = foundation.getPosition().x+2*i;
     		 start_position_y[i] = foundation.getPosition().y;
+    		 segments[i].setTransform(foundation.getPosition().x+2*i, foundation.getPosition().y, 1.57f); //-2
+ 			segments[i].setAngularVelocity(0.0f);
+ 			segments[i].setLinearVelocity(0.0f, 0.0f);
+
     	 }
     	 RevoluteJointDef jointDef = new RevoluteJointDef();
     	 jointDef.localAnchorA.y = -height_rope/2;
-    	 jointDef.localAnchorB.y = height_rope/4;
+    	 jointDef.localAnchorB.y = height_rope/2;
     	 for(int i = 0; i < joints.length; i++)
     	 {
     		 jointDef.bodyA = segments[i];
@@ -85,18 +89,19 @@ public class Rope extends Game_object {
 		    rjd.enableMotor = true;
 		    rjd.collideConnected = false;
 		    world.createJoint(rjd);
-        	//Create ball
-		   
+		    
+        	//Create ball 
 			BodyDef bodyDef3 = new BodyDef();
 	        bodyDef3.type = BodyDef.BodyType.DynamicBody;
 	        ball = world.createBody(bodyDef3);
-	      
 	        ball.setTransform(segments[length-1].getPosition().x, segments[length-1].getPosition().y, 0);
+			//ball.setAngularVelocity(0.0f);
+			ball.setLinearVelocity(0.0f, 0.0f);
 	        start_position_ball_x = segments[length-1].getPosition().x;
 	        start_position_ball_y = segments[length-1].getPosition().y;
 	        ball.setLinearVelocity(0,0);
 	    	CircleShape shape_player = new CircleShape();
-	        shape_player.setRadius(radius);
+	        shape_player.setRadius(radius1);
 	        FixtureDef fixtureDef_player = new FixtureDef();
 	        fixtureDef_player.shape = shape_player;
 	        fixtureDef_player.density = 6;
@@ -125,24 +130,29 @@ public class Rope extends Game_object {
 	}
 	public void set_start_position(float x, float y)
 	{
-		current_x = x;
-		current_y = y;
+		//current_x = x;
+		//current_y = y;
+		foundation.setLinearVelocity(0.0f, 0.0f);
+		foundation.setAngularVelocity(0.0f);
 		ball.setTransform(start_position_ball_x, start_position_ball_y, 0);
 		ball.setAngularVelocity(0.0f);
 		ball.setLinearVelocity(0.0f, 0.0f);
 		for(int i = 0; i < count_block; i++)
 		{
 			segments[i].setTransform(start_position_x[i], start_position_y[i], 1.57f);
+			segments[i].setAngularVelocity(0.0f);
+			segments[i].setLinearVelocity(0.0f, 0.0f);
 		}
+	//	createRope(w, 9);
 		 
 	}
 	public void draw(SpriteBatch batch)
 	{
-
+		//Draw ball 
 		 batch.draw(textureRegion, ball.getPosition().x-1, ball.getPosition().y-1, // the bottom left corner of the box, unrotated
  				1f, 1f, // the rotation center relative to the bottom left corner of the box
  				2,  2, // the width and height of the box
- 				radius, radius, // the scale on the x- and y-axis
+ 				radius1, radius1, // the scale on the x- and y-axis
  				MathUtils.radiansToDegrees * 0); // the rotation angle
 		 //Draw static body
 		 batch.draw(textureRegion_static, foundation.getPosition().x-1, foundation.getPosition().y-1, // the bottom left corner of the box, unrotated

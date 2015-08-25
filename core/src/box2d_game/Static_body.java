@@ -1,4 +1,4 @@
-package box2d_game;
+package game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -135,10 +135,13 @@ public class Static_body extends Game_object {
 	}
 	public void draw(SpriteBatch batch)
 	{
-	 	batch.draw(textureRegion, groundBody.getPosition().x-1, groundBody.getPosition().y-1, // the bottom left corner of the box, unrotated
-				1f, 1f, // the rotation center relative to the bottom left corner of the box
-				2,  2, // the width and height of the box
-				get_a(), get_b(), // the scale on the x- and y-axis
-				MathUtils.radiansToDegrees * groundBody.getAngle()); // the rotation angle*/
+		if(groundBody.isActive())
+		{
+		 	batch.draw(textureRegion, groundBody.getPosition().x-1, groundBody.getPosition().y-1, // the bottom left corner of the box, unrotated
+					1f, 1f, // the rotation center relative to the bottom left corner of the box
+					2,  2, // the width and height of the box
+					get_a(), get_b(), // the scale on the x- and y-axis
+					MathUtils.radiansToDegrees * groundBody.getAngle()); // the rotation angle*/
+		}
 	}
 }

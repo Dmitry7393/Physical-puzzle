@@ -1,4 +1,4 @@
-package box2d_game;
+package game;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -47,6 +47,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     private String path_to_level = "D:/level4.txt";
     private boolean editor_mode = false;
     int count_check = 0; 
+    private float delta_x;
+    private float delta_y;
     Rope r;
     @Override
     public void create()
@@ -109,7 +111,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     	                    }  
             	 }  
             // }	
-          /*   if(count_check <= 1)
+             /*if(count_check <= 1)
              {
             	 Body temp_moved;
 	             Body temp_game;
@@ -142,8 +144,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
 		                  }
 		              }
 	             
-	             }*/
-	             count_check++;  
+	             }
+	             count_check++;  */
             }
             @Override
             public void endContact(Contact contact) {
@@ -262,7 +264,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
        Game_object r = new Rope();
        r.set_coordinate(x, y);
        r.set_type("rope");
-       r.mouse_moved = mouse_moved;
+       r.w = world;
+   //    r.mouse_moved = mouse_moved;
        r.density = density;
        r.createRope(world, length);
        r.set_texture_rope(spr_f, spr_rope, spr_ball);
@@ -367,17 +370,21 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
 		   }
 		}	
 	}
+    public double distance_two_point(double x1, double y1, double x2, double y2)
+    {
+    	return Math.sqrt(Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2));
+    }
     public void render() {
         camera.update();
         if(game_mode == true)
         world.step(1f/60f, 6, 2);
       //  Gdx.gl.glClearColor(1, 1, 1, 1);
-        compute();
+        //compute();
         Gdx.gl.glClearColor(0,0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.getProjectionMatrix().set(camera.combined);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
-   	 for(int i = 0; i < object.size(); i++)
+   /*	 for(int i = 0; i < object.size(); i++)
    	 {
    		 if(object.get(i).path_texture.equals("image/invisible.png"))
    		 {
@@ -387,7 +394,23 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
    		 {
    			 b1 = object.get(i).get_body();
    		 }	
-   	 }
+   	 }*/
+     //   System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().x);
+      //  System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().y);
+        for(int i = 0; i < object.size(); i++)
+        {
+        	if(object.get(i).get_type() == "particle")
+        	{
+        		if(object.get(i).get_body().getLinearVelocity().y < -15)
+                {
+                // System.out.println("aesdf");
+                   JOptionPane.showMessageDialog(null, "fall");
+                   object.get(i).get_body().setActive(false);
+                 object.remove(i);
+                 break;
+                }
+        	}
+        }
         batch.begin();   
         if(drawSprite)
         {
@@ -440,6 +463,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
            for(int i = 0; i < object.size(); i++)
            {
         	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
+        	   object.get(i).get_body().setActive(true);
            }
         }
         if(keycode == Input.Keys.MINUS)
@@ -503,8 +527,13 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             }
             if(keycode == Input.Keys.NUM_9)
             {
-            	add_rope(-3, 25, 9, 233.0f, "image/nail.png", "image/rope.jpg", "data/ball.png", true);
+            	add_rope(-3, 26, 9, 25.0f, "image/nail.png", "image/rope.jpg", "image/p.png", true);
             }
+            if(keycode == Input.Keys.N)
+            {
+            	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, 0.0f, "image/invisible.png", true, true);
+            }
+            
             if(keycode == Input.Keys.C)
             {
             	for(int i = 0; i < object.size(); i++)
@@ -598,6 +627,68 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                	    }
                   }
             }
+            if(keycode == Input.Keys.Y)
+            {
+            	System.out.println("force");
+            	  //object.get(0).get_body().applyForceToCenter(0f,10f,true);
+            //	  object.get(0).get_body().setAngularVelocity(3f);
+            	//  object.get(0).get_body().applyTorque(43,true);
+            	//  object.get(0).get_body().setLinearVelocity(-7f,30f);
+            	Game_object p = new Particle();
+            	  p.set_type("particle");
+            	  p.set_radius(0.01f);
+            	  p.set_coordinate(-19, 17);
+            	  p.set_fixture(400000, 0.1f);
+            	  p.start_linearvelocity_x = 50.0f;
+            	  p.start_linearvelocity_y = 0f;
+            	//  p.get_body().setLinearVelocity(50f, 0f);
+            	  p.create(world);
+            	  object.addElement(p);
+            	//  object.get(object.size()-1).get_body().setLinearVelocity(50f, 0f);
+            }
+            if(keycode == Input.Keys.E)
+            {
+            	add_static_body(0, 1, 4.5f,  4.5f, 0.0f, 0.0f, "image/explosion.jpg", true, false);
+            }
+            if(keycode == Input.Keys.F)
+            {
+            	//Create explosion
+            	float coord_bomb_x = 0.0f;
+            	float coord_bomb_y = 0.0f;
+            	float v_x;
+            	float v_y;
+            	boolean create_explosion = false;
+            	for(int i = 0; i < object.size(); i++)
+            	{
+            		//Delete bomb
+            		if(object.get(i).path_texture == "image/explosion.jpg")
+            		{
+            			coord_bomb_x = object.get(i).get_body().getPosition().x;
+            			coord_bomb_y = object.get(i).get_body().getPosition().y;
+            			object.get(i).get_body().setActive(false);
+               	    	create_explosion = true;
+            		}
+            	}
+            	if(create_explosion == true)
+            	{
+            		double distance = 0.0f;
+            		for(int i = 0; i < object.size(); i++)
+            		{
+            			v_x = object.get(i).get_body().getPosition().x - coord_bomb_x;
+            			v_y = object.get(i).get_body().getPosition().y - coord_bomb_y;
+            			distance = distance_two_point(object.get(i).get_body().getPosition().x , object.get(i).get_body().getPosition().y, coord_bomb_x, coord_bomb_y);
+            			//нормализация вектора
+            			v_x = v_x / (float)distance;
+            			v_y = v_y / (float)distance;
+            			object.get(i).get_body().setLinearVelocity((float)((140f*v_x)/(distance)), (float)((140f*v_y)/(distance)));
+            			System.out.println("distance) = " + distance);
+            			System.out.println("float)(5f*v_x/distance) = " + (float)(5f*v_x/distance));
+            		    System.out.println("float)(5f*v_y/distance) = " + (float)(5f*v_y/distance));
+            		}
+            	}
+        		
+
+            }
         }
         return true;
     }
@@ -608,7 +699,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     	if(game_mode == false)
     	{
-    		   testPoint.set(screenX, screenY, 0);
+    			
+    		    testPoint.set(screenX, screenY, 0);
     	        camera.unproject(testPoint);    
     	        hitBody = null;
     	        world.QueryAABB(callback, testPoint.x - 0.1f, testPoint.y - 0.1f, testPoint.x + 0.1f, testPoint.y + 0.1f);
@@ -625,13 +717,15 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     	        }
     	        if (hitBody != null)  
     	        {
+    	        	    //new code
+    	        		delta_x = testPoint.x - hitBody.getPosition().x;
+    	        		delta_y = testPoint.y - hitBody.getPosition().y;
     	                MouseJointDef def = new MouseJointDef();
     	                def.bodyA = bodyEdgeScreen;
     	                def.bodyB = hitBody;
     	                def.collideConnected = true;
     	                def.target.set(testPoint.x, testPoint.y);
-    	              //  def.maxForce = 1000.0f * hitBody.getMass();
-    	              //  System.out.println("left mouse pressed");
+    	                def.maxForce = 1000.0f * hitBody.getMass();
     	                mouseJoint = (MouseJoint)world.createJoint(def);
     	                hitBody.setAwake(true);
     	        } 
@@ -648,8 +742,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         return false;
     }
  
+    /** another temporary vector **/
+    Vector2 target = new Vector2();
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
+    public boolean touchDragged(int screenX, int screenY, int pointer)
+    {
     	if(game_mode == false)
     	{
     		testPoint.set(screenX, screenY, 0);
@@ -662,9 +759,9 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                 	{
                 		if(object.get(i).mouse_moved == true)
                 		{
-                			object.get(i).set_coordinate(testPoint.x, testPoint.y);  //remember position
-                    		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
-                    		object.get(i).moveTo(testPoint.x, testPoint.y);
+                			object.get(i).set_coordinate(testPoint.x-delta_x, testPoint.y-delta_y);  //remember position
+                    		hitBody.setTransform(testPoint.x-delta_x, testPoint.y-delta_y, object.get(i).angle);
+                    		object.get(i).moveTo(testPoint.x-delta_x, testPoint.y-delta_y);
                 		}
                 	}
                 }
