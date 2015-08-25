@@ -151,4 +151,8 @@ public class Rectangle extends Game_object
 				get_a(), get_b(), // the scale on the x- and y-axis
 				MathUtils.radiansToDegrees * square.getAngle()); // the rotation angle*/
 	}
+	public void setActive(boolean b)
+	{
+		square.setActive(b);
+	}
 }

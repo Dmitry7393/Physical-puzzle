@@ -170,4 +170,9 @@ public class Spinning_block extends Game_object {
 					get_a(), get_b(), // the scale on the x- and y-axis
 					MathUtils.radiansToDegrees * obj2.getAngle()); // the rotation angle*/
 		}
+		public void setActive(boolean b)
+		{
+			obj1.setActive(b);
+			obj2.setActive(b);
+		}
 }

@@ -145,4 +145,8 @@ public class Circle extends Game_object
 				get_a(), get_b(), // the scale on the x- and y-axis
 				MathUtils.radiansToDegrees * ball.getAngle()); // the rotation angle*/
 	}
+	public void setActive(boolean b)
+	{
+		ball.setActive(b);
+	}
 }

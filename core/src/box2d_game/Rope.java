@@ -192,4 +192,12 @@ public class Rope extends Game_object {
 	{
 		return type;
 	}
+	public void setActive(boolean b)
+	{
+		for(int i = 0; i < count_block; i++)
+		{
+			segments[i].setActive(b);
+		}
+		ball.setActive(b);
+	}
 }

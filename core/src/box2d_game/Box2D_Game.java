@@ -39,17 +39,31 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
-    private int level = 4;
+    private int level = 1;
     Body b1  = null;
     Body b2  = null;
     TextureRegion textureRegion;
     private float width_game_field = 18.0f;
-    private String path_to_level = "D:/level4.txt";
+    private String path_to_level = "D:/level1.txt";
+boolean next_step = false;
     private boolean editor_mode = false;
     int count_check = 0; 
     private float delta_x;
     private float delta_y;
     Rope r;
+	public void next_level()
+	{
+	  for(int i = 0; i < object.size(); i++)
+	   {
+		   object.get(i).setActive(false);
+	   }
+	  object.clear();
+	    game_mode = false;
+		level++;
+		String str = "D:/level" + level + ".txt";
+		System.out.println("str = " + str);
+		Load_level(str);
+	}
     @Override
     public void create()
     {
@@ -98,6 +112,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                 // If so apply a random amount of upward force to both objects... just because
            //  if(level == 1 || level == 2)
          //    {
+            	//if(b1.getPosition().x > 5) next_level();
             	 if(b1 != null && b2 != null)
             	 {
     	            	   if((contact.getFixtureA().getBody() == b1 &&
@@ -106,12 +121,12 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     	                           (contact.getFixtureA().getBody() == b2 &&
     	                                   contact.getFixtureB().getBody() == b1)) 	
     	               	 	{
-    	            		   JOptionPane.showMessageDialog(null, "Level " + level + " completed!");
-    	            		   game_mode = false;
+    	            		  JOptionPane.showMessageDialog(null, "Level " + level + " completed!");
+    	            		  next_step = true;
     	                    }  
             	 }  
             // }	
-             /*if(count_check <= 1)
+            /* if(count_check <= 1)
              {
             	 Body temp_moved;
 	             Body temp_game;
@@ -379,12 +394,12 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         if(game_mode == true)
         world.step(1f/60f, 6, 2);
       //  Gdx.gl.glClearColor(1, 1, 1, 1);
-        //compute();
+        compute();
         Gdx.gl.glClearColor(0,0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.getProjectionMatrix().set(camera.combined);
         debugMatrix = batch.getProjectionMatrix().cpy().scale(1, 1, 0);
-   /*	 for(int i = 0; i < object.size(); i++)
+   	 for(int i = 0; i < object.size(); i++)
    	 {
    		 if(object.get(i).path_texture.equals("image/invisible.png"))
    		 {
@@ -394,7 +409,7 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
    		 {
    			 b1 = object.get(i).get_body();
    		 }	
-   	 }*/
+   	 }
      //   System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().x);
       //  System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().y);
         for(int i = 0; i < object.size(); i++)
@@ -411,6 +426,11 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
                 }
         	}
         }
+        if(next_step == true)
+    	{
+        	next_level();
+        	next_step = false;
+    	}
         batch.begin();   
         if(drawSprite)
         {
@@ -465,6 +485,43 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
         	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
         	   object.get(i).get_body().setActive(true);
            }
+        }
+    	//Create explosion
+        if(keycode == Input.Keys.F)
+        {
+        	if(game_mode == true)
+        	{
+        		float coord_bomb_x = 0.0f;
+            	float coord_bomb_y = 0.0f;
+            	float v_x;
+            	float v_y;
+            	double distance = 0.0f;
+            	for(int i = 0; i < object.size(); i++)
+            	{
+            		//Delete bomb
+            		if(object.get(i).path_texture.equals("image/explosion.png") && object.get(i).get_body().isActive() == true)
+            		{
+            			coord_bomb_x = object.get(i).get_body().getPosition().x;
+            			coord_bomb_y = object.get(i).get_body().getPosition().y;
+            			object.get(i).get_body().setActive(false);  	
+            			//Push elements
+                		for(int j = 0; j < object.size(); j++)
+                		{
+                			if(object.get(j).get_body().getPosition().x < width_game_field )
+                			{
+                				v_x = object.get(j).get_body().getPosition().x - coord_bomb_x;
+                    			v_y = object.get(j).get_body().getPosition().y - coord_bomb_y;
+                    			distance = distance_two_point(object.get(j).get_body().getPosition().x , object.get(j).get_body().getPosition().y, coord_bomb_x, coord_bomb_y);
+                    			//нормализация вектора
+                    			v_x = v_x / (float)distance;
+                    			v_y = v_y / (float)distance;
+                    			object.get(j).get_body().setLinearVelocity((float)((150f*v_x)/(distance)), (float)((150f*v_y)/(distance)));
+                			}
+
+                		}
+            		}
+            	}
+        	}
         }
         if(keycode == Input.Keys.MINUS)
         {
@@ -596,7 +653,8 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             }
             if(keycode == Input.Keys.L)
             {
-                  Load_level(path_to_level);
+                 // Load_level(path_to_level);
+            	next_level();
             }
             if(keycode == Input.Keys.T)
             {
@@ -648,47 +706,9 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
             }
             if(keycode == Input.Keys.E)
             {
-            	add_static_body(0, 1, 4.5f,  4.5f, 0.0f, 0.0f, "image/explosion.jpg", true, false);
+            	add_static_body(0, 1, 2.8f,  3.5f, 0.0f, 0.0f, "image/explosion.png", true, false);
             }
-            if(keycode == Input.Keys.F)
-            {
-            	//Create explosion
-            	float coord_bomb_x = 0.0f;
-            	float coord_bomb_y = 0.0f;
-            	float v_x;
-            	float v_y;
-            	boolean create_explosion = false;
-            	for(int i = 0; i < object.size(); i++)
-            	{
-            		//Delete bomb
-            		if(object.get(i).path_texture == "image/explosion.jpg")
-            		{
-            			coord_bomb_x = object.get(i).get_body().getPosition().x;
-            			coord_bomb_y = object.get(i).get_body().getPosition().y;
-            			object.get(i).get_body().setActive(false);
-               	    	create_explosion = true;
-            		}
-            	}
-            	if(create_explosion == true)
-            	{
-            		double distance = 0.0f;
-            		for(int i = 0; i < object.size(); i++)
-            		{
-            			v_x = object.get(i).get_body().getPosition().x - coord_bomb_x;
-            			v_y = object.get(i).get_body().getPosition().y - coord_bomb_y;
-            			distance = distance_two_point(object.get(i).get_body().getPosition().x , object.get(i).get_body().getPosition().y, coord_bomb_x, coord_bomb_y);
-            			//нормализация вектора
-            			v_x = v_x / (float)distance;
-            			v_y = v_y / (float)distance;
-            			object.get(i).get_body().setLinearVelocity((float)((140f*v_x)/(distance)), (float)((140f*v_y)/(distance)));
-            			System.out.println("distance) = " + distance);
-            			System.out.println("float)(5f*v_x/distance) = " + (float)(5f*v_x/distance));
-            		    System.out.println("float)(5f*v_y/distance) = " + (float)(5f*v_y/distance));
-            		}
-            	}
-        		
 
-            }
         }
         return true;
     }

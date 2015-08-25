@@ -38,6 +38,10 @@ public class Game_object {
 	{
 		
 	}
+	public void setActive(boolean b)
+	{
+		
+	}
 	public void set_coordinate(float x, float y)
 	{
 		

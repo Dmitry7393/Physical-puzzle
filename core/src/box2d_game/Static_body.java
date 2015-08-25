@@ -144,4 +144,8 @@ public class Static_body extends Game_object {
 					MathUtils.radiansToDegrees * groundBody.getAngle()); // the rotation angle*/
 		}
 	}
+	public void setActive(boolean b)
+	{
+		groundBody.setActive(b);
+	}
 }
