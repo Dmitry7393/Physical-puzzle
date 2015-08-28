@@ -1,11 +1,10 @@
 package game;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
-
 import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -39,13 +38,15 @@ public class Box2D_Game extends ApplicationAdapter implements InputProcessor {
     Vector3 testPoint = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
-    private int level = 1;
+    private int level = 5;
     Body b1  = null;
     Body b2  = null;
     TextureRegion textureRegion;
+    TextureRegion textureRegion_button_start;
+    TextureRegion textureRegion_button_stop;
     private float width_game_field = 18.0f;
-    private String path_to_level = "D:/level1.txt";
-boolean next_step = false;
+    private String path_to_level = "D:/level5.txt";  //D:/
+    boolean next_step = false;
     private boolean editor_mode = false;
     int count_check = 0; 
     private float delta_x;
@@ -57,10 +58,10 @@ boolean next_step = false;
 	   {
 		   object.get(i).setActive(false);
 	   }
-	  object.clear();
+	    object.clear();
 	    game_mode = false;
 		level++;
-		String str = "D:/level" + level + ".txt";
+		String str = "D:/level" + level + ".txt";  //D:/
 		System.out.println("str = " + str);
 		Load_level(str);
 	}
@@ -69,12 +70,16 @@ boolean next_step = false;
     {
         camera = new OrthographicCamera(54, 32);
         camera.position.set(0, 16, 0);
+        //if(game_mode == true)
+        
         world = new World(new Vector2(0, -20.0f),  false);
         batch = new SpriteBatch();
         
         Load_level(path_to_level);
         //Bottom line
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("image/background.png")));  
+        textureRegion_button_start = new TextureRegion(new Texture(Gdx.files.internal("image/button_start.png"))); 
+        textureRegion_button_stop = new TextureRegion(new Texture(Gdx.files.internal("image/button_stop.png"))); 
         BodyDef bodyDef_bottom = new BodyDef();
         bodyDef_bottom.type = BodyDef.BodyType.StaticBody;
         bodyDef_bottom.position.set(0,-50);
@@ -107,12 +112,6 @@ boolean next_step = false;
             @Override
             public void beginContact(Contact contact) 
             {
-            	//System.out.println("setContactListener");
-                // Check to see if the collision is between the second sprite and the bottom of the screen
-                // If so apply a random amount of upward force to both objects... just because
-           //  if(level == 1 || level == 2)
-         //    {
-            	//if(b1.getPosition().x > 5) next_level();
             	 if(b1 != null && b2 != null)
             	 {
     	            	   if((contact.getFixtureA().getBody() == b1 &&
@@ -124,9 +123,8 @@ boolean next_step = false;
     	            		  JOptionPane.showMessageDialog(null, "Level " + level + " completed!");
     	            		  next_step = true;
     	                    }  
-            	 }  
-            // }	
-            /* if(count_check <= 1)
+            	 }  	
+           /*  if(count_check <= 2)
              {
             	 Body temp_moved;
 	             Body temp_game;
@@ -158,9 +156,9 @@ boolean next_step = false;
 		                   
 		                  }
 		              }
-	             
-	             }
-	             count_check++;  */
+	             count_check++;  
+	             }*/
+	           
             }
             @Override
             public void endContact(Contact contact) {
@@ -375,8 +373,8 @@ boolean next_step = false;
 		   if(object.get(i).get_body().getPosition().x > width_game_field)
 		   {
 			   object.get(i).change_box_size(-1);
-			   if(editor_mode == false)
-			   object.get(i).moveTo(object.get(i).stock_start_x, object.get(i).stock_start_y);
+			//   if(editor_mode == false)
+			//   object.get(i).moveTo(object.get(i).stock_start_x, object.get(i).stock_start_y);
 			   
 		   }
 		   else
@@ -388,6 +386,16 @@ boolean next_step = false;
     public double distance_two_point(double x1, double y1, double x2, double y2)
     {
     	return Math.sqrt(Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2));
+    }
+    public void start_game()
+    {
+        game_mode = !game_mode;
+        count_check = 0;
+        for(int i = 0; i < object.size(); i++)
+        {
+     	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
+     	   object.get(i).get_body().setActive(true);
+        }
     }
     public void render() {
         camera.update();
@@ -410,15 +418,12 @@ boolean next_step = false;
    			 b1 = object.get(i).get_body();
    		 }	
    	 }
-     //   System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().x);
-      //  System.out.println("particle_speed" + object.get(object.size()-1).get_body().getLinearVelocity().y);
         for(int i = 0; i < object.size(); i++)
         {
         	if(object.get(i).get_type() == "particle")
         	{
         		if(object.get(i).get_body().getLinearVelocity().y < -15)
                 {
-                // System.out.println("aesdf");
                    JOptionPane.showMessageDialog(null, "fall");
                    object.get(i).get_body().setActive(false);
                  object.remove(i);
@@ -434,11 +439,22 @@ boolean next_step = false;
         batch.begin();   
         if(drawSprite)
         {
-        	batch.draw(textureRegion, -1, 16, // the bottom left corner of the box, unrotated
-    				1f, 1f, // the rotation center relative to the bottom left corner of the box
-    				2,  2, // the width and height of the box
-    				27, 17, // the scale on the x- and y-axis
-    				0.0f); // the rotation angle
+        	
+        		batch.draw(textureRegion, -1, 16, // the bottom left corner of the box, unrotated
+        				1f, 1f, // the rotation center relative to the bottom left corner of the box
+        				2,  2, // the width and height of the box
+        				27, 17, // the scale on the x- and y-axis
+        				0.0f); // the rotation angle
+	        	batch.draw(textureRegion_button_start, 19.6f, 29, // the bottom left corner of the box, unrotated
+	    				1f, 1f, // the rotation center relative to the bottom left corner of the box
+	    				2,  2, // the width and height of the box
+	    				1.5f, 1.5f, // the scale on the x- and y-axis
+	    				0.0f); // the rotation angle
+	        	batch.draw(textureRegion_button_stop, 23, 29, // the bottom left corner of the box, unrotated
+	    				1f, 1f, // the rotation center relative to the bottom left corner of the box
+	    				2,  2, // the width and height of the box
+	    				1.5f, 1.5f, // the scale on the x- and y-axis
+	    				0.0f); // the rotation angle
         	for(int i = 0; i < object.size(); i++)
         	{
         		object.get(i).draw(batch);
@@ -478,13 +494,7 @@ boolean next_step = false;
     {
         if(keycode == Input.Keys.SPACE)
         {
-           game_mode = !game_mode;
-           count_check = 0;
-           for(int i = 0; i < object.size(); i++)
-           {
-        	   object.get(i).set_start_position(object.get(i).start_x, object.get(i).start_y);  
-        	   object.get(i).get_body().setActive(true);
-           }
+        	start_game();
         }
     	//Create explosion
         if(keycode == Input.Keys.F)
@@ -523,193 +533,148 @@ boolean next_step = false;
             	}
         	}
         }
-        if(keycode == Input.Keys.MINUS)
+    	if(keycode == Input.Keys.NUM_1)
         {
-        	editor_mode = false;
+        	add_rectangle((float)random_int(-24, 12), (float)random_int(0, 26), 3.0f,  0.5f, 2, 0.1f,0.0f,  "data/Wood.jpg", true);     
         }
-        if(keycode == Input.Keys.PLUS)
+        if(keycode == Input.Keys.NUM_2)
         {
-        	editor_mode = true;
+        	add_ball(random_int(-24, 12), random_int(0, 26), 1.5f, //x y radius
+        			2.1f,  0.2f, 0.0f, "data/ball.png", true);  //density, rest, angle  
         }
-        if(keycode == Input.Keys.CONTROL_LEFT)
+        if(keycode == Input.Keys.NUM_3)
+        {
+        	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
+        			15.0f, 0.1f, 0.0f, "data/Steel-Box.jpg", true);
+        	
+        }
+        if(keycode == Input.Keys.NUM_4)
+        {
+           add_rectangle(random_int(-20, 12), random_int(0, 21), 2.0f,  2.0f, 
+        		   3.6f, 0.2f, 0.0f,"data/box.jpg", true);
+        }
+        if(keycode == Input.Keys.NUM_5)
+        {
+        	add_static_body(0, 1, 4.5f,  0.6f, 0.0f, 0.0f, "image/texture_wood.png", true, false);
+        }
+        if(keycode == Input.Keys.NUM_6)
+        {	
+        	add_block_hinge(3, 1, 5.5f, 0.6f, 9, 0.4f, 0.0f,  "image/wood2.jpg", true);
+        }
+        if(keycode == Input.Keys.NUM_6)
+        {	
+        	add_block_hinge(3, 1, 5.5f, 0.6f, 9, 0.4f, 0.0f,  "image/wood2.jpg", true);
+        }
+        if(keycode == Input.Keys.NUM_7)
+        {
+        	add_static_body(3, 5, 3.0f,  2.1f,  1.5f, 0.0f, "image/spring.png", true, false);
+        }
+        if(keycode == Input.Keys.NUM_8)
+        {
+        	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
+        			1.0f, 0.1f, 0.0f, "image/paper_box.jpg", true);
+        }
+        if(keycode == Input.Keys.NUM_9)
+        {
+        	add_rope(-3, 26, 9, 25.0f, "image/nail.png", "image/rope.jpg", "image/p.png", true);
+        }
+        if(keycode == Input.Keys.E)
+        {
+        	add_static_body(0, 1, 2.8f,  3.5f, 0.0f, 0.0f, "image/explosion.png", true, false);
+        }
+        if(keycode == Input.Keys.N)
+        {
+        	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, 0.0f, "image/invisible.png", true, true);
+        }
+        
+        if(keycode == Input.Keys.C)
         {
         	for(int i = 0; i < object.size(); i++)
         	{
-        		//if(object.get(i).mouse_moved == true)
-        		//	object.get(i).get_body().setTransform(3, 11, 10);
-        		object.get(i).set_coordinate(3, 11);
-        		object.get(i).moveTo(3, 11);
+        		object.get(i).mouse_moved = true;
         	}
-        	
         }
-        if(editor_mode == true)
+        
+        if(keycode == Input.Keys.R)
         {
-        	if(keycode == Input.Keys.NUM_1)
-            {
-            	add_rectangle((float)random_int(-24, 12), (float)random_int(0, 26), 3.0f,  0.5f, 2, 0.1f,0.0f,  "data/Wood.jpg", true);     
-            }
-            if(keycode == Input.Keys.NUM_2)
-            {
-            	add_ball(random_int(-24, 12), random_int(0, 26), 1.5f, //x y radius
-            			2.1f,  0.2f, 0.0f, "data/ball.png", true);  //density, rest, angle  
-            }
-            if(keycode == Input.Keys.NUM_3)
-            {
-            	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
-            			15.0f, 0.1f, 0.0f, "data/Steel-Box.jpg", true);
-            	
-            }
-            if(keycode == Input.Keys.NUM_4)
-            {
-               add_rectangle(random_int(-20, 12), random_int(0, 21), 2.0f,  2.0f, 
-            		   3.6f, 0.2f, 0.0f,"data/box.jpg", true);
-            }
-            if(keycode == Input.Keys.NUM_5)
-            {
-            	add_static_body(0, 1, 4.5f,  0.6f, 0.0f, 0.0f, "image/texture_wood.png", true, false);
-            }
-            if(keycode == Input.Keys.NUM_6)
-            {
-            	
-            	add_block_hinge(3, 1, 5.5f, 0.6f, 9, 0.4f, 0.0f,  "image/wood2.jpg", true);
-            }
-            if(keycode == Input.Keys.NUM_7)
-            {
-            	add_static_body(3, 5, 3.0f,  2.1f,  1.5f, 0.0f, "image/spring.png", true, false);
-            }
-            if(keycode == Input.Keys.NUM_8)
-            {
-            	add_rectangle(random_int(-24, 12), random_int(0, 26), 2.0f,  2.0f,
-            			1.0f, 0.1f, 0.0f, "image/paper_box.jpg", true);
-            }
-            if(keycode == Input.Keys.NUM_9)
-            {
-            	add_rope(-3, 26, 9, 25.0f, "image/nail.png", "image/rope.jpg", "image/p.png", true);
-            }
-            if(keycode == Input.Keys.N)
-            {
-            	add_static_body(5, 2, 4.0f,  1.0f, 0.0f, 0.0f, "image/invisible.png", true, true);
-            }
-            
-            if(keycode == Input.Keys.C)
-            {
-            	for(int i = 0; i < object.size(); i++)
-            	{
-            		object.get(i).mouse_moved = true;
-            	}
-            }
-            
-            if(keycode == Input.Keys.W)
-            {
-            	String str = "";
-            	Writer w  = new Writer(path_to_level);
-            	for(int j = 0; j < object.size(); j++)
-            	{
-            		if(object.get(j).get_type() == "rectangle")
-            		{
-            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
-            					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
-            					object.get(j).density + " " + object.get(j).restitution + " " +
-            					object.get(j).angle + " " +
-            					object.get(j).path_texture + " " + object.get(j).get_position_x();
-                		w.write(str);
-            		}
-            		if(object.get(j).get_type() == "static_body")
-            		{
-            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
-            					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
-								object.get(j).restitution + " " + object.get(j).angle + " " +
-            					object.get(j).path_texture + " " + object.get(j).get_position_x()
-            					+ " " + object.get(j).isSensor;
-                		w.write(str);
-            		}
-            		if(object.get(j).get_type() == "ball")
-            		{
-            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
-            					object.get(j).get_a() + " " + 
-            					object.get(j).density + " " + object.get(j).restitution + " " +
-            					object.get(j).angle + " " +
-            					object.get(j).path_texture  + " " + object.get(j).get_position_x();
-                		w.write(str);
-            		}	
-            		if(object.get(j).get_type() == "block_hinge")
-            		{
-            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
-            					object.get(j).get_a() + " " + object.get(j).get_b() + " " +
-            					object.get(j).density + " " + object.get(j).restitution + " " +
-            					object.get(j).angle + " " +
-            					object.get(j).path_texture  + " " + object.get(j).get_position_x();
-                		w.write(str);
-            		}
-            		if(object.get(j).get_type() == "rope")
-            		{
-            			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
-            					object.get(j).get_length_rope() + " " + object.get(j).density + " " +
-            					object.get(j).spr_foundation + " " + object.get(j).spr_rope + " " + object.get(j).spr_ball
-            					+ " " + object.get(j).mouse_moved;
-                		w.write(str);
-            		}
-            	}
-            }
-            if(keycode == Input.Keys.L)
-            {
-                 // Load_level(path_to_level);
-            	next_level();
-            }
-            if(keycode == Input.Keys.T)
-            {
-            	if(hitBody != null)	
-                { 
-                 	for(int i = 0; i < object.size(); i++)
-                    {
-                     	if(hitBody == object.get(i).get_body() && object.get(i).get_type() != "part_hinge_static")
-                     	{
-                     			object.get(i).angle = -1.5676f;
-        	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
-                     	}
-                    }
+        	String str = "";
+        	Writer w  = new Writer(path_to_level);
+        	for(int j = 0; j < object.size(); j++)
+        	{
+        		if(object.get(j).get_type() == "rectangle")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture + " " + object.get(j).get_position_x();
+            		w.write(str);
+        		}
+        		if(object.get(j).get_type() == "static_body")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " + 
+							object.get(j).restitution + " " + object.get(j).angle + " " +
+        					object.get(j).path_texture + " " + object.get(j).get_position_x()
+        					+ " " + object.get(j).isSensor;
+            		w.write(str);
+        		}
+        		if(object.get(j).get_type() == "ball")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + 
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture  + " " + object.get(j).get_position_x();
+            		w.write(str);
+        		}	
+        		if(object.get(j).get_type() == "block_hinge")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_a() + " " + object.get(j).get_b() + " " +
+        					object.get(j).density + " " + object.get(j).restitution + " " +
+        					object.get(j).angle + " " +
+        					object.get(j).path_texture  + " " + object.get(j).get_position_x();
+            		w.write(str);
+        		}
+        		if(object.get(j).get_type() == "rope")
+        		{
+        			str = object.get(j).get_type() + " " + object.get(j).start_x + " " + object.get(j).start_y + " " +
+        					object.get(j).get_length_rope() + " " + object.get(j).density + " " +
+        					object.get(j).spr_foundation + " " + object.get(j).spr_rope + " " + object.get(j).spr_ball
+        					+ " " + object.get(j).mouse_moved;
+            		w.write(str);
+        		}
+        	}
+        }
+        if(keycode == Input.Keys.T)
+        {
+        	if(hitBody != null)	
+            { 
+             	for(int i = 0; i < object.size(); i++)
+                {
+                 	if(hitBody == object.get(i).get_body() && object.get(i).get_type() != "part_hinge_static")
+                 	{
+                 			object.get(i).angle = -1.5676f;
+    	             		hitBody.setTransform(testPoint.x, testPoint.y, object.get(i).angle);
+                 	}
                 }
             }
-            
-            if(keycode == Input.Keys.BACKSPACE)
-            {
-            	  for(int i = 0; i < object.size(); i++)
-                  {
-               	    if(hitBody == object.get(i).get_body())
-               	    {
-	               	    	object.get(i).get_body().setActive(false);
-	               	    	//object.get(i).get_body().setUserData(null);
-	               	    	//world.destroyBody(object.get(i).get_body());
-	               	    	object.remove(i);
-	               	    	break;
-               	    }
-                  }
-            }
-            if(keycode == Input.Keys.Y)
-            {
-            	System.out.println("force");
-            	  //object.get(0).get_body().applyForceToCenter(0f,10f,true);
-            //	  object.get(0).get_body().setAngularVelocity(3f);
-            	//  object.get(0).get_body().applyTorque(43,true);
-            	//  object.get(0).get_body().setLinearVelocity(-7f,30f);
-            	Game_object p = new Particle();
-            	  p.set_type("particle");
-            	  p.set_radius(0.01f);
-            	  p.set_coordinate(-19, 17);
-            	  p.set_fixture(400000, 0.1f);
-            	  p.start_linearvelocity_x = 50.0f;
-            	  p.start_linearvelocity_y = 0f;
-            	//  p.get_body().setLinearVelocity(50f, 0f);
-            	  p.create(world);
-            	  object.addElement(p);
-            	//  object.get(object.size()-1).get_body().setLinearVelocity(50f, 0f);
-            }
-            if(keycode == Input.Keys.E)
-            {
-            	add_static_body(0, 1, 2.8f,  3.5f, 0.0f, 0.0f, "image/explosion.png", true, false);
-            }
-
         }
+        if(keycode == Input.Keys.DEL)
+        {
+        	  for(int i = 0; i < object.size(); i++)
+              {
+           	    if(hitBody == object.get(i).get_body())
+           	    {
+               	    	object.get(i).get_body().setActive(false);
+               	    	//object.get(i).get_body().setUserData(null);
+               	    	//world.destroyBody(object.get(i).get_body());
+               	    	object.remove(i);
+               	    	break;
+           	    }
+              }
+        }  
         return true;
     }
     @Override
@@ -717,11 +682,21 @@ boolean next_step = false;
         return false;
     }
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+	    testPoint.set(screenX, screenY, 0);
+        camera.unproject(testPoint);  
+        if(game_mode == true)
+        {
+        	if(distance_two_point(testPoint.x,testPoint.y, 23, 29) < 1.5f*1.5f)
+	    	{
+	    		start_game();
+	    	}
+        }
     	if(game_mode == false)
     	{
-    			
-    		    testPoint.set(screenX, screenY, 0);
-    	        camera.unproject(testPoint);    
+    	    	if(distance_two_point(testPoint.x,testPoint.y, 19.6f, 29) < 1.5f*1.5f)
+    	    	{
+    	    		start_game();
+    	    	}
     	        hitBody = null;
     	        world.QueryAABB(callback, testPoint.x - 0.1f, testPoint.y - 0.1f, testPoint.x + 0.1f, testPoint.y + 0.1f);
     	        for(int i = 0; i < object.size(); i++)
@@ -791,19 +766,15 @@ boolean next_step = false;
     }
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-    	// testPoint.set(screenX, screenY, 0);
-      //  camera.unproject(testPoint);
-        // System.out.println("testPoint.x = " + testPoint.x);
-        // System.out.println("testPoint.y = " + testPoint.y);
         return false;
     }
     @Override
     public boolean scrolled(int amount) {
-        if(hitBody != null)	
+        if(hitBody != null && game_mode == false)	
         { 
          	for(int i = 0; i < object.size(); i++)
             {
-             	if(hitBody == object.get(i).get_body() && object.get(i).get_type() != "part_hinge_static")
+             	if(hitBody == object.get(i).get_body() && object.get(i).get_type() != "part_hinge_static" && object.get(i).mouse_moved == true)
              	{
              		if(amount == -1)
                 	{

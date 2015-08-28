@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -55,8 +56,13 @@ public class Spinning_block extends Game_object {
 	     groundBodyDef.position.set(new Vector2(current_x, current_y));  
 	     obj1 = world.createBody(groundBodyDef);  
 	     PolygonShape groundBox = new PolygonShape();  
-	     groundBox.setAsBox(0.2f, 0.2f); 
-	     obj1.createFixture(groundBox, 0.0f); 
+	     groundBox.setRadius(1f);
+	     
+			CircleShape shape_player = new CircleShape();
+	        shape_player.setRadius(0.4f);
+	        
+	   //  groundBox.setAsBox(0.2f, 0.2f); 
+	     obj1.createFixture(shape_player, 0.0f);   //groundBox
 	     groundBox.dispose();
 	     //Create dynamic body
 	     BodyDef bodyDef = new BodyDef();
@@ -169,6 +175,12 @@ public class Spinning_block extends Game_object {
 					2,  2, // the width and height of the box
 					get_a(), get_b(), // the scale on the x- and y-axis
 					MathUtils.radiansToDegrees * obj2.getAngle()); // the rotation angle*/
+		 	textureRegion_static = new TextureRegion(new Texture(Gdx.files.internal("image/nail.png")));    
+		 	batch.draw(textureRegion_static, obj1.getPosition().x-1, obj1.getPosition().y-1, // the bottom left corner of the box, unrotated
+					1f, 1f, // the rotation center relative to the bottom left corner of the box
+					2,  2, // the width and height of the box
+					0.4f, 0.4f, // the scale on the x- and y-axis
+					MathUtils.radiansToDegrees * obj1.getAngle()); // the rotation angle
 		}
 		public void setActive(boolean b)
 		{
