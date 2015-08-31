@@ -133,16 +133,20 @@ public class Static_body extends Game_object {
 	{
 		groundBody.setTransform(dx, dy, angle);
 	}
-	public void draw(SpriteBatch batch)
+	public void draw(SpriteBatch batch, boolean game_mode)
 	{
-		if(groundBody.isActive())
+		if(game_mode == true && (path_texture.equals("image/strelka.png") ||  path_texture.equals("image/strelka2.png")))
 		{
-		 	batch.draw(textureRegion, groundBody.getPosition().x-1, groundBody.getPosition().y-1, // the bottom left corner of the box, unrotated
-					1f, 1f, // the rotation center relative to the bottom left corner of the box
-					2,  2, // the width and height of the box
-					get_a(), get_b(), // the scale on the x- and y-axis
-					MathUtils.radiansToDegrees * groundBody.getAngle()); // the rotation angle*/
+			return;
 		}
+			if(groundBody.isActive())
+			{
+			 	batch.draw(textureRegion, groundBody.getPosition().x-1, groundBody.getPosition().y-1, // the bottom left corner of the box, unrotated
+						1f, 1f, // the rotation center relative to the bottom left corner of the box
+						2,  2, // the width and height of the box
+						get_a(), get_b(), // the scale on the x- and y-axis
+						MathUtils.radiansToDegrees * groundBody.getAngle()); // the rotation angle*/
+			}
 	}
 	public void setActive(boolean b)
 	{

@@ -4,18 +4,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class Rectangle extends Game_object
+public class Polygon_shape extends Game_object
 {
 	Body square;
 	private PolygonShape  shape;
 	private FixtureDef fixtureDef = new FixtureDef();
-	Rectangle()
+	float x1; float y1; float x2; float y2; float x3; float y3; float x4; float y4;
+	Polygon_shape()
 	{
 		
 	}
@@ -48,10 +50,26 @@ public class Rectangle extends Game_object
 		delete_old_shape();
 		create_new_shape();
 	}
+	public void set_coordinate(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
+	{
+		 this.x1 = x1;
+		 this.y1 = y1;
+		 this.x2 = x2;
+		 this.y2 = y2;
+		 this.x3 = x3;
+		 this.y3 = y3;
+		 this.x4 = x4;
+		 this.y4 = y4;
+	}
 	public void create_new_shape()
 	{     
-		shape = new PolygonShape();
-        shape.setAsBox(width_box, height_box);
+		 Vector2[] vertices = new Vector2[4];
+		 shape = new PolygonShape();
+		    vertices[0] = new Vector2(x1, y1);
+		    vertices[1] = new Vector2(x2, y2);
+		    vertices[2] = new Vector2(x3, y3);
+		    vertices[3] = new Vector2(x4, y4);
+		    shape.set(vertices);
         fixtureDef.shape = shape;
         fixtureDef.density = density;
         fixtureDef.restitution = restitution;

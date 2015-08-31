@@ -46,6 +46,10 @@ public class Game_object {
 	{
 		
 	}
+	public void set_coordinate(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
+	{
+		
+	}
 	public void set_box(float a, float b)
 	{
 	}
@@ -133,7 +137,7 @@ public class Game_object {
 	{
 		
 	}
-	public void draw(SpriteBatch batch)
+	public void draw(SpriteBatch batch, boolean game_mode)
 	{
 		
 	}

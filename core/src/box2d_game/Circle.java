@@ -137,7 +137,7 @@ public class Circle extends Game_object
 	{
 		ball.setTransform(dx, dy, angle);
 	}
-	public void draw(SpriteBatch batch)
+	public void draw(SpriteBatch batch, boolean game_mode)
 	{
 	 	batch.draw(textureRegion, ball.getPosition().x-1, ball.getPosition().y-1, // the bottom left corner of the box, unrotated
 				1f, 1f, // the rotation center relative to the bottom left corner of the box

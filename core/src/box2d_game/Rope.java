@@ -146,7 +146,7 @@ public class Rope extends Game_object {
 	//	createRope(w, 9);
 		 
 	}
-	public void draw(SpriteBatch batch)
+	public void draw(SpriteBatch batch, boolean game_mode)
 	{
 		//Draw ball 
 		 batch.draw(textureRegion, ball.getPosition().x-1, ball.getPosition().y-1, // the bottom left corner of the box, unrotated
