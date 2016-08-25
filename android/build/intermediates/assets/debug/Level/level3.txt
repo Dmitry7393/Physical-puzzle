@@ -1,0 +1,19 @@
+rectangle 13.286562 31.2 2.0 2.0 15.0 0.1 0.3 data/Steel-Box.jpg false
+static_body -14.353755 21.866667 4.5 0.6 0.0 0.0 image/texture_wood.png false false
+rectangle -13.019763 25.6 3.0 0.5 2.0 0.1 -1.5676 data/Wood.jpg false
+block_hinge -12.699605 11.2 5.5 0.6 9.0 0.4 -1.4901161E-8 image/wood2.jpg false
+rectangle 20.650198 11.893333 1.0 1.0 3.6 0.2 0.0 data/box.jpg true
+static_body 22.571146 27.253334 2.25 0.3 0.0 -1.4901161E-8 image/texture_wood.png true false
+static_body 21.877468 24.053333 2.25 0.3 0.0 -1.4901161E-8 image/texture_wood.png true false
+ball -15.474308 24.32 1.5 2.1 0.2 0.0 data/ball.png false
+rectangle -15.260869 29.333334 3.0 0.5 2.0 0.1 0.0 data/Wood.jpg false
+rectangle -17.555336 25.6 3.0 0.5 2.0 0.1 -1.5676 data/Wood.jpg false
+static_body 22.304348 25.493334 2.25 0.3 0.0 -1.4901161E-8 image/texture_wood.png true false
+static_body 8.644269 6.453333 4.0 1.0 0.0 0.0 image/invisible.png false true
+static_body 21.610672 18.026667 1.5 1.05 1.5 1.4901161E-8 image/spring.png true false
+static_body 24.918972 18.026667 1.5 1.05 1.5 0.0 image/spring.png true false
+static_body 4.5889335 9.28 4.5 0.6 0.0 -1.5676 image/texture_wood.png false false
+static_body 12.432805 9.226666 4.5 0.6 0.0 -1.5676 image/texture_wood.png false false
+static_body 8.430831 5.2800007 4.5 0.6 0.0 0.0 image/texture_wood.png false false
+static_body 8.62846 16.133335 2.0 2.0 0.0 0.0 image/strelka.png false true
+static_body -21.78656 24.613335 2.0 2.0 0.0 0.0 image/strelka2.png false true

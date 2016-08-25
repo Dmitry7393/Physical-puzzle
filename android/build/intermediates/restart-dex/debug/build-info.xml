@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="x86"
+    api-level="19"
+    density="xhdpi"
+    format="7"
+    timestamp="33595764603783"
+    token="-187166712661060169" >
+
+    <task
+        name="javac"
+        duration="2709" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="924" />
+    <task
+        name="verifier"
+        duration="517" />
+
+    <artifact
+        location="C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\outputs\apk\android-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="33595764603783" >
+        <artifact
+            location="C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\outputs\apk\android-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>

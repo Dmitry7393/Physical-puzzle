@@ -1,0 +1,12 @@
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Rope$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Rectangle$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Spinning_block$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Static_body$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\PuzzleGame$1$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\PuzzleGame$2$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Game_object$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Polygon_shape$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Particle$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\PuzzleGame$override.class
+CHANGED,C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\game\Circle$override.class
