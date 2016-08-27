@@ -125,6 +125,10 @@ public class Rope extends Game_object {
 		    world.createJoint(rjd2);
     	// return segments;
     }
+	public  void set_fixture(float d, float r)
+	{
+
+	}
 	public void set_texture_rope(String spr_f, String spr_r, String spr_b)
 	{
 		 spr_foundation = spr_f; 
@@ -205,5 +209,8 @@ public class Rope extends Game_object {
 			segments[i].setActive(b);
 		}
 		ball.setActive(b);
+	}
+	public void dispose() {
+
 	}
 }

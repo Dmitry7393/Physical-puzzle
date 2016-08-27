@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="CCCC" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="DOWN" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
@@ -35,48 +35,24 @@
       <file leaf-file-name="PuzzleGame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4135135">
-              <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Point.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/game/Point.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.529976">
+              <caret line="722" column="24" selection-start-line="722" selection-start-column="24" selection-end-line="722" selection-end-column="24" />
               <folding>
-                <element signature="e#189#190#0" expanded="true" />
-                <element signature="e#213#214#0" expanded="true" />
-                <element signature="e#239#240#0" expanded="true" />
-                <element signature="e#263#264#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Static_body.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/game/Static_body.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
-              <folding>
-                <element signature="e#2948#2949#0" expanded="true" />
-                <element signature="e#3007#3008#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Rope.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/game/Rope.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-              <folding>
-                <element signature="e#1408#1409#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#34034#34035#0" expanded="true" />
+                <element signature="e#34062#34063#0" expanded="true" />
+                <element signature="e#34119#34120#0" expanded="true" />
+                <element signature="e#34147#34148#0" expanded="true" />
+                <element signature="e#34236#34237#0" expanded="true" />
+                <element signature="e#34264#34265#0" expanded="true" />
+                <element signature="e#34778#34779#0" expanded="true" />
+                <element signature="e#34806#34807#0" expanded="true" />
+                <element signature="e#34894#34895#0" expanded="true" />
+                <element signature="e#34922#34923#0" expanded="true" />
+                <element signature="e#35008#35009#0" expanded="true" />
+                <element signature="e#35036#35037#0" expanded="true" />
+                <element signature="e#35123#35124#0" expanded="true" />
+                <element signature="e#35151#35152#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -95,6 +71,9 @@
     <option name="KEY_STORE_PATH" value="C:\Users\Dmitry\AndroidStudioProjects\Physical-puzzle\GenerageAPKFILE.jks" />
     <option name="KEY_ALIAS" value="Alias" />
     <option name="REMEMBER_PASSWORDS" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
@@ -2345,13 +2324,13 @@
         <option value="$PROJECT_DIR$/core/src/com/game/Rectangle.java" />
         <option value="$PROJECT_DIR$/core/src/com/game/Spinning_block.java" />
         <option value="$PROJECT_DIR$/core/src/com/game/Polygon_shape.java" />
-        <option value="$PROJECT_DIR$/core/src/com/game/Rope.java" />
-        <option value="$PROJECT_DIR$/core/src/com/game/Particle.java" />
-        <option value="$PROJECT_DIR$/core/src/com/game/Game_object.java" />
-        <option value="$PROJECT_DIR$/core/src/com/game/Static_body.java" />
         <option value="$PROJECT_DIR$/core/src/com/game/Circle.java" />
-        <option value="$PROJECT_DIR$/core/src/com/game/PuzzleGame.java" />
         <option value="$PROJECT_DIR$/core/src/com/game/Point.java" />
+        <option value="$PROJECT_DIR$/core/src/com/game/Particle.java" />
+        <option value="$PROJECT_DIR$/core/src/com/game/Static_body.java" />
+        <option value="$PROJECT_DIR$/core/src/com/game/Game_object.java" />
+        <option value="$PROJECT_DIR$/core/src/com/game/Rope.java" />
+        <option value="$PROJECT_DIR$/core/src/com/game/PuzzleGame.java" />
       </list>
     </option>
   </component>
@@ -2386,6 +2365,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2433,9 +2415,6 @@
         </subPane>
       </pane>
       <pane id="ProjectPane" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2780,29 +2759,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1380" height="742" extended-state="6" />
-    <editor active="false" />
+    <frame x="-7" y="-7" width="1380" height="742" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5191816" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5277778" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33728814" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24915254" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.48081842" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.4722222" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2861,6 +2840,78 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/src/com/game/desktop/DesktopLauncher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2883,8 +2934,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
           <folding>
-            <element signature="e#2948#2949#0" expanded="true" />
-            <element signature="e#3007#3008#0" expanded="true" />
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2893,9 +2944,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-          <folding>
-            <element signature="e#1408#1409#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2903,7 +2952,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+          <folding>
+            <element signature="e#189#190#0" expanded="true" />
+            <element signature="e#213#214#0" expanded="true" />
+            <element signature="e#239#240#0" expanded="true" />
+            <element signature="e#263#264#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2912,8 +2990,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
           <folding>
-            <element signature="e#2948#2949#0" expanded="true" />
-            <element signature="e#3007#3008#0" expanded="true" />
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2922,9 +3000,106 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1408#1409#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+          <folding>
+            <element signature="e#189#190#0" expanded="true" />
+            <element signature="e#213#214#0" expanded="true" />
+            <element signature="e#239#240#0" expanded="true" />
+            <element signature="e#263#264#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Static_body.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
+          <folding>
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Rope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Static_body.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
+          <folding>
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Rope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2932,7 +3107,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2964,19 +3155,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/game/Particle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24637681">
-          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-          <folding>
-            <element signature="e#626#627#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#683#684#0" expanded="true" />
-            <element signature="e#718#719#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3017,14 +3195,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/game/Game_object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/android/assets/image/box.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -3040,14 +3210,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/desktop/src/com/game/desktop/DesktopLauncher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/game/Circle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.9513514">
@@ -3056,27 +3218,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#3580#3581#0" expanded="true" />
             <element signature="e#3607#3608#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/game/Static_body.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="112" column="27" selection-start-line="112" selection-start-column="27" selection-end-line="112" selection-end-column="27" />
-          <folding>
-            <element signature="e#2948#2949#0" expanded="true" />
-            <element signature="e#3007#3008#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/game/Rope.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="25" selection-start-line="39" selection-start-column="25" selection-end-line="39" selection-end-column="25" />
-          <folding>
-            <element signature="e#1408#1409#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3094,11 +3235,75 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Particle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="133" column="28" selection-start-line="133" selection-start-column="28" selection-end-line="133" selection-end-column="28" />
+          <folding>
+            <element signature="e#3158#3159#0" expanded="true" />
+            <element signature="e#3177#3178#0" expanded="true" />
+            <element signature="e#3206#3207#0" expanded="true" />
+            <element signature="e#3224#3225#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Static_body.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.72">
+          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="23" selection-end-column="5" />
+          <folding>
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3058#3059#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Rope.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.44">
+          <caret line="213" column="0" selection-start-line="213" selection-start-column="0" selection-end-line="213" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/game/Game_object.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5687104">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/desktop/src/com/game/desktop/DesktopLauncher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25158563">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/game/PuzzleGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4135135">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-          <folding />
+        <state vertical-scroll-proportion="0.529976">
+          <caret line="722" column="24" selection-start-line="722" selection-start-column="24" selection-end-line="722" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#34034#34035#0" expanded="true" />
+            <element signature="e#34062#34063#0" expanded="true" />
+            <element signature="e#34119#34120#0" expanded="true" />
+            <element signature="e#34147#34148#0" expanded="true" />
+            <element signature="e#34236#34237#0" expanded="true" />
+            <element signature="e#34264#34265#0" expanded="true" />
+            <element signature="e#34778#34779#0" expanded="true" />
+            <element signature="e#34806#34807#0" expanded="true" />
+            <element signature="e#34894#34895#0" expanded="true" />
+            <element signature="e#34922#34923#0" expanded="true" />
+            <element signature="e#35008#35009#0" expanded="true" />
+            <element signature="e#35036#35037#0" expanded="true" />
+            <element signature="e#35123#35124#0" expanded="true" />
+            <element signature="e#35151#35152#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

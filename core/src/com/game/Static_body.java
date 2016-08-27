@@ -18,6 +18,10 @@ public class Static_body extends Game_object {
 	{
 		
 	}
+	public  void set_fixture(float d, float r)
+	{
+
+	}
 	public float getX() {
 		return groundBody.getPosition().x;
 	}

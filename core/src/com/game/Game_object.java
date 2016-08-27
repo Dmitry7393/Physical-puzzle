@@ -18,8 +18,7 @@ public abstract class Game_object {
 	protected float density;
 	protected float restitution;
 	protected String path_texture;
-	public boolean flag;
-	String type;
+	protected String type;
 	protected boolean allow_inc = false;
 	protected boolean allow_dec = false;
 	protected float stock_start_x;
@@ -59,41 +58,22 @@ public abstract class Game_object {
 	{
 		
 	}
-	public void set_fixture(float d, float r)
-	{
-	}
-	public void set_world(World world1)
-	{
-	}
+	public abstract void set_fixture(float d, float r);
+
 	public void set_type(String type1)
 	{
 		
-	}
-	
-	public String name_texture()
-	{
-		return "";
-	}
-	public String type_object_dragged()
-	{
-		return "";
 	}
 	public String get_type()
 	{
 		return "";
 	}
-	public void set_linear_velocity(float vx, float vy)
-	{
-		
-	}
+
 	public float get_a()
 	{
 		return 0;
 	}
-	public void dispose()
-	{
-		
-	}
+	public abstract void dispose();
 	public void moveTo(float dx, float dy)
 	{
 		
@@ -102,10 +82,7 @@ public abstract class Game_object {
 	{
 		return 0;
 	}
-	public void start_position(float x, float y)
-	{
 
-	}
 	public boolean get_position_x() //if x > 16 - return true
 	{
 		return false;
@@ -124,10 +101,6 @@ public abstract class Game_object {
 		
 	}
 	public abstract Body get_body();
-	public TextureRegion get_texture()
-	{
-		return textureRegion;
-	}
 	public void set_image(String path) //
 	{
 		  
@@ -149,10 +122,6 @@ public abstract class Game_object {
     {
 	 
     }
-	public float rotation_center_x = 1f;
-	public float rotation_center_y = 1f;
 	public float width = 2f;
 	public float height = 2f;
-	public float scale_x = 4.7f;
-	public float scale_y = 4.7f;
 }

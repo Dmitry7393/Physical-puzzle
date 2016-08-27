@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.math.Matrix4;
@@ -21,7 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
+public class PuzzleGame extends ApplicationAdapter implements InputProcessor, GestureDetector.GestureListener {
     World world;
     SpriteBatch batch;
     private Vector<Game_object> object = new Vector<Game_object>();
@@ -33,21 +35,23 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
     BitmapFont font;
     Point coordinatesButtonRotateLeft = new Point(-26, 29);
     Point coordinatesButtonRotateRight = new Point(-22, 29);
-
+    GestureDetector gestureDetector;
     boolean game_mode = false;
     boolean drawSprite = true;
     Vector3 testPoint = new Vector3();
+    Vector3 pointTouchDown = new Vector3();
     Body hitBody = null;
     private MouseJoint mouseJoint = null;
     private int level = 1;
     Body b1 = null;
     Body b2 = null;
+    private boolean mChangingZoom = false;
     TextureRegion textureRegion;
     TextureRegion textureRegion_button_start;
     TextureRegion textureRegion_button_stop;
     TextureRegion textureRegionButtonRotateLeft;
     TextureRegion textureRegionButtonRotateRight;
-
+   // private boolean mZooming = false;
     private float width_game_field = 18.0f;
     boolean next_step = false;
     int count_check = 0;
@@ -103,14 +107,25 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
         bodyEdgeScreen = world.createBody(bodyDef_right);
         bodyEdgeScreen.createFixture(fixtureDef_right);
         edgeShape_right.dispose();
-        Gdx.input.setInputProcessor(this);
 
         debugRenderer = new Box2DDebugRenderer();
         font = new BitmapFont();
         font.setColor(Color.BLACK);
 
+       // gestureDetector = new GestureDetector(this);
+       // Gdx.input.setInputProcessor(gestureDetector);
+       // Gdx.input.setInputProcessor(this);
+
+        InputMultiplexer im = new InputMultiplexer();
+        gestureDetector = new GestureDetector(this);
+        im.addProcessor(gestureDetector);
+        im.addProcessor(this);
+
+        Gdx.input.setInputProcessor(im);
+
         loadLevel();
     }
+
     public void loadLevel() {
         FileHandle handle = Gdx.files.internal("Level/level" + Integer.toString(level) + ".txt");
         String text = handle.readString();
@@ -120,6 +135,7 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
             Split_str(sCurrentLine);
         }
     }
+
     public void collision2() {
 
         world.setContactListener(new ContactListener() {
@@ -130,7 +146,7 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
                 if (b1 != null && b2 != null) {
                     if ((contact.getFixtureA().getBody() == b1 && contact.getFixtureB().getBody() == b2)
                             || (contact.getFixtureA().getBody() == b2 && contact.getFixtureB().getBody() == b1)) {
-                       // JOptionPane.showMessageDialog(null, "Level " + level + " completed!");
+                        // JOptionPane.showMessageDialog(null, "Level " + level + " completed!");
                         next_step = true;
                     }
                 }
@@ -345,7 +361,6 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
     }
 
 
-
     public void compute() {
         boolean editor_mode = false;
         for (int i = 0; i < object.size(); i++) {
@@ -432,24 +447,24 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
                     1.5f, 1.5f,
                     0.0f);
             if (showArrowRotate) {
-                batch.draw(textureRegionButtonRotateLeft, (float)coordinatesButtonRotateLeft.getX(), (float)coordinatesButtonRotateLeft.getY(),
+                batch.draw(textureRegionButtonRotateLeft, (float) coordinatesButtonRotateLeft.getX(), (float) coordinatesButtonRotateLeft.getY(),
                         1f, 1f,
                         2, 2,
                         1.5f, 1.5f,
                         0.0f);
-                batch.draw(textureRegionButtonRotateRight, (float)coordinatesButtonRotateRight.getX(), (float)coordinatesButtonRotateRight.getY(),
+                batch.draw(textureRegionButtonRotateRight, (float) coordinatesButtonRotateRight.getX(), (float) coordinatesButtonRotateRight.getY(),
                         1f, 1f,
                         2, 2,
                         1.5f, 1.5f,
                         0.0f);
             }
-
             for (int i = 0; i < object.size(); i++) {
                 object.get(i).draw(batch, game_mode);
             }
+            font.draw(batch, Boolean.toString(mChangingZoom), -20, 20);
         }
         batch.end();
-        // debugRenderer.render(world, debugMatrix);
+        //debugRenderer.render(world, debugMatrix);
     }
 
     QueryCallback callback = new QueryCallback() {
@@ -645,6 +660,26 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
             obj.set_image("image/box.png");
             object.addElement(obj);
         }
+        if (keycode == Input.Keys.A) {
+            Gdx.app.log("ZOOM", "IN");
+            camera.zoom += 0.1;
+        }
+        if (keycode == Input.Keys.Q) {
+            Gdx.app.log("ZOOM", "OUT");
+            camera.zoom -= 0.1;
+        }
+        if (keycode == Input.Keys.LEFT) {
+            camera.translate(-3, 0, 0);
+        }
+        if (keycode == Input.Keys.RIGHT) {
+            camera.translate(3, 0, 0);
+        }
+        if (keycode == Input.Keys.DOWN) {
+            camera.translate(0, -3, 0);
+        }
+        if (keycode == Input.Keys.UP) {
+            camera.translate(0, 3, 0);
+        }
         return true;
     }
 
@@ -682,9 +717,16 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
         return false;
     }
 
+    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(mChangingZoom) {
+            return true;
+        }
         testPoint.set(screenX, screenY, 0);
         camera.unproject(testPoint);
+        pointTouchDown = new Vector3(testPoint);
+        Gdx.app.log("DOWN", Float.toString(pointTouchDown.x) + " " + Float.toString(pointTouchDown.y));
+
         if (game_mode) {
             if (distance_two_point(testPoint.x, testPoint.y, 24, 30) < 1f * 1f) {
                 launchGravity();
@@ -721,45 +763,56 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
                 def.maxForce = 1000.0f * hitBody.getMass();
                 mouseJoint = (MouseJoint) world.createJoint(def);
                 hitBody.setAwake(true);
-                // Rotating object
-                Gdx.app.log("HITBODY_X", Float.toString(hitBody.getPosition().x));
-                Gdx.app.log("HITBODY_Y", Float.toString(hitBody.getPosition().y));
             }
-
         }
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // hitBody = null;
+        testPoint.set(screenX, screenY, 0);
+        camera.unproject(testPoint);
+        Gdx.app.log("UP", Float.toString(testPoint.x) + " " + Float.toString(testPoint.y));
+
         if (mouseJoint != null) {
             world.destroyJoint(mouseJoint);
             mouseJoint = null;
         }
-        return false;
+        mChangingZoom = false;
+        pointTouchDown = new Vector3(0,0,0);
+        return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (!game_mode) {
+        //camera.translate(-deltaX*0.1f, deltaY*0.1f);
+        if(mChangingZoom) {
+            return true;
+        }
             testPoint.set(screenX, screenY, 0);
             camera.unproject(testPoint);
-            if (hitBody != null) // && hitBody != ball2.get_body()
-            {
-                for (int i = 0; i < object.size(); i++) {
-                    if (hitBody == object.get(i).get_body()) {
-                        if (object.get(i).mouse_moved) {
-                            object.get(i).set_coordinate(testPoint.x - delta_x, testPoint.y - delta_y); // remember
-                            // position
-                            hitBody.setTransform(testPoint.x - delta_x, testPoint.y - delta_y, object.get(i).angle);
-                            object.get(i).moveTo(testPoint.x - delta_x, testPoint.y - delta_y);
+            if (hitBody == null && pointTouchDown.x != 0 && pointTouchDown.y != 0) {
+                Gdx.app.log("DRAGGED", Float.toString(testPoint.x) + " " + Float.toString(testPoint.y));
+                float dX = -1 * (testPoint.x - pointTouchDown.x);
+                float dY = -1 * (testPoint.y - pointTouchDown.y);
+                camera.translate(dX, dY, 0);
+            }
+            if (!game_mode) {
+                if (hitBody != null) // && hitBody != ball2.get_body()
+                {
+                    for (int i = 0; i < object.size(); i++) {
+                        if (hitBody == object.get(i).get_body()) {
+                            if (object.get(i).mouse_moved) {
+                                object.get(i).set_coordinate(testPoint.x - delta_x, testPoint.y - delta_y); // remember
+                                // position
+                                hitBody.setTransform(testPoint.x - delta_x, testPoint.y - delta_y, object.get(i).angle);
+                                object.get(i).moveTo(testPoint.x - delta_x, testPoint.y - delta_y);
+                            }
                         }
                     }
                 }
             }
-        }
-        return false;
+        return true;
     }
 
     @Override
@@ -769,6 +822,59 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+      /*  if(hitBody == null) {
+            Gdx.app.log("DRAGGED", Float.toString(testPoint.x) + " " + Float.toString(testPoint.y));
+            float deltaX = -1 * (testPoint.x - pointTouchDown.x);
+            float deltaY = -1 * (testPoint.y - pointTouchDown.y);
+            camera.translate(deltaX, deltaY, 0);
+        }*/
+        // not
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        mChangingZoom = true;
+        if (initialDistance > distance) {
+            camera.zoom += 0.01f; //zoom out
+        } else {
+            camera.zoom -= 0.01f; //zoom in
+        }
+        return true;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
         return false;
     }
 }
