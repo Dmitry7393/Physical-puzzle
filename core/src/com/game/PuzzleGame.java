@@ -51,7 +51,7 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
     TextureRegion textureRegion_button_stop;
     TextureRegion textureRegionButtonRotateLeft;
     TextureRegion textureRegionButtonRotateRight;
-   // private boolean mZooming = false;
+    // private boolean mZooming = false;
     private float width_game_field = 18.0f;
     boolean next_step = false;
     int count_check = 0;
@@ -59,6 +59,8 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
     private float delta_y;
     boolean check_first_collision = true;  //if collision occurs, we must delete this object
     int c_collision = 0;
+    private float mCurrentBoundsX = 0;
+    private float mCurrentBoundsY = 0;
 
     public void next_level() {
         for (int i = 0; i < object.size(); i++) {
@@ -80,6 +82,7 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
 
         // Bottom line
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal("image/background.png")));
+
         textureRegion_button_start = new TextureRegion(new Texture(Gdx.files.internal("image/button_start.png")));
         textureRegion_button_stop = new TextureRegion(new Texture(Gdx.files.internal("image/button_stop.png")));
 
@@ -112,9 +115,9 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
         font = new BitmapFont();
         font.setColor(Color.BLACK);
 
-       // gestureDetector = new GestureDetector(this);
-       // Gdx.input.setInputProcessor(gestureDetector);
-       // Gdx.input.setInputProcessor(this);
+        // gestureDetector = new GestureDetector(this);
+        // Gdx.input.setInputProcessor(gestureDetector);
+        // Gdx.input.setInputProcessor(this);
 
         InputMultiplexer im = new InputMultiplexer();
         gestureDetector = new GestureDetector(this);
@@ -131,7 +134,6 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
         String text = handle.readString();
         String wordsArray[] = text.split("\\r?\\n");
         for (String sCurrentLine : wordsArray) {
-            Gdx.app.log("FFF", sCurrentLine);
             Split_str(sCurrentLine);
         }
     }
@@ -426,10 +428,9 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
             next_level();
             next_step = false;
         }
+        //batch.setProjectionMatrix(camera.combined);
         batch.begin();
         if (drawSprite) {
-
-
             batch.draw(textureRegion, -1, 16, // the bottom left corner of the box, unrotated
                     1f, 1f, // the rotation center relative to the bottom left
                     // corner of the box
@@ -461,7 +462,9 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
             for (int i = 0; i < object.size(); i++) {
                 object.get(i).draw(batch, game_mode);
             }
-            font.draw(batch, Boolean.toString(mChangingZoom), -20, 20);
+            font.getData().setScale(0.2f, 0.2f);
+            font.draw(batch, Float.toString(camera.position.x) + " " + Float.toString(camera.position.y) +
+                    " " + Float.toString(camera.zoom), -20, 20);
         }
         batch.end();
         //debugRenderer.render(world, debugMatrix);
@@ -661,25 +664,55 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
             object.addElement(obj);
         }
         if (keycode == Input.Keys.A) {
-            Gdx.app.log("ZOOM", "IN");
-            camera.zoom += 0.1;
+            float zoomValue = 0.1f;
+            if (camera.zoom < 0.999) {
+                float nextZoom = camera.zoom + zoomValue;
+                float currentBoundsX = (1.0f - nextZoom) * 27;
+                float currentBoundsY = (1.0f - nextZoom) * 15;
+                Gdx.app.log("CurrentBouds", Float.toString(currentBoundsX) + " " + Float.toString(currentBoundsY));
+                //Если после отдаления камера окажется за границей - переместить вправо по Х
+                if (camera.position.x < (-currentBoundsX)) { //left border x
+                    float moveX = Math.abs(camera.position.x) - Math.abs(currentBoundsX);
+                    camera.position.x += moveX;
+                    return true;
+                }
+                if (camera.position.x > (currentBoundsX)) { //right border x
+                    float moveX = Math.abs(camera.position.x) - Math.abs(currentBoundsX);
+                    camera.position.x -= moveX;
+                    return true;
+                }
+                if (camera.position.y > (currentBoundsY + 16)) {
+                    float moveY = camera.position.y - (currentBoundsY + 16);
+                    camera.position.y -= moveY;
+                    return true;
+                }
+                if (camera.position.y < (16 - currentBoundsY)) {
+                    float moveY = (16 - currentBoundsY) - camera.position.y;
+                    camera.position.y += moveY;
+                    return true;
+                }
+                camera.zoom += zoomValue; //zoom out
+            }
+            // camera.zoom += 0.1;
         }
         if (keycode == Input.Keys.Q) {
-            Gdx.app.log("ZOOM", "OUT");
-            camera.zoom -= 0.1;
+            if (camera.zoom > 0.3)
+                camera.zoom -= 0.1;
         }
         if (keycode == Input.Keys.LEFT) {
-            camera.translate(-3, 0, 0);
+            camera.translate(-0.1f, 0, 0);
         }
         if (keycode == Input.Keys.RIGHT) {
-            camera.translate(3, 0, 0);
+            camera.translate(0.1f, 0, 0);
         }
         if (keycode == Input.Keys.DOWN) {
-            camera.translate(0, -3, 0);
+            camera.translate(0, -0.1f, 0);
         }
         if (keycode == Input.Keys.UP) {
-            camera.translate(0, 3, 0);
+            camera.translate(0, 0.1f, 0);
         }
+        Gdx.app.log("CCC", Float.toString(camera.position.x) + " " + Float.toString(camera.position.y));
+        camera.update();
         return true;
     }
 
@@ -719,13 +752,12 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(mChangingZoom) {
+        if (mChangingZoom) {
             return true;
         }
         testPoint.set(screenX, screenY, 0);
         camera.unproject(testPoint);
         pointTouchDown = new Vector3(testPoint);
-        Gdx.app.log("DOWN", Float.toString(pointTouchDown.x) + " " + Float.toString(pointTouchDown.y));
 
         if (game_mode) {
             if (distance_two_point(testPoint.x, testPoint.y, 24, 30) < 1f * 1f) {
@@ -772,46 +804,53 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         testPoint.set(screenX, screenY, 0);
         camera.unproject(testPoint);
-        Gdx.app.log("UP", Float.toString(testPoint.x) + " " + Float.toString(testPoint.y));
 
         if (mouseJoint != null) {
             world.destroyJoint(mouseJoint);
             mouseJoint = null;
         }
         mChangingZoom = false;
-        pointTouchDown = new Vector3(0,0,0);
+        pointTouchDown = new Vector3(0, 0, 0);
         return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         //camera.translate(-deltaX*0.1f, deltaY*0.1f);
-        if(mChangingZoom) {
+        if (mChangingZoom) {
             return true;
         }
-            testPoint.set(screenX, screenY, 0);
-            camera.unproject(testPoint);
-            if (hitBody == null && pointTouchDown.x != 0 && pointTouchDown.y != 0) {
-                Gdx.app.log("DRAGGED", Float.toString(testPoint.x) + " " + Float.toString(testPoint.y));
-                float dX = -1 * (testPoint.x - pointTouchDown.x);
-                float dY = -1 * (testPoint.y - pointTouchDown.y);
-                camera.translate(dX, dY, 0);
-            }
-            if (!game_mode) {
-                if (hitBody != null) // && hitBody != ball2.get_body()
-                {
-                    for (int i = 0; i < object.size(); i++) {
-                        if (hitBody == object.get(i).get_body()) {
-                            if (object.get(i).mouse_moved) {
-                                object.get(i).set_coordinate(testPoint.x - delta_x, testPoint.y - delta_y); // remember
-                                // position
-                                hitBody.setTransform(testPoint.x - delta_x, testPoint.y - delta_y, object.get(i).angle);
-                                object.get(i).moveTo(testPoint.x - delta_x, testPoint.y - delta_y);
-                            }
+        testPoint.set(screenX, screenY, 0);
+        camera.unproject(testPoint);
+        if (hitBody == null && pointTouchDown.x != 0 && pointTouchDown.y != 0) {
+            float dX = -1 * (testPoint.x - pointTouchDown.x);
+            float dY = -1 * (testPoint.y - pointTouchDown.y);
+            //Check for boundaries
+            float currentZoom = 1.0f - camera.zoom;
+            float boundsX = currentZoom * 27;
+            float boundsY = currentZoom * 15;
+            mCurrentBoundsX = boundsX;
+            mCurrentBoundsY = boundsY;
+            if (camera.position.x + dX > (-boundsX) && camera.position.x + dX < boundsX)
+                camera.translate(dX, 0, 0);
+            if (camera.position.y + dY > (16 - boundsY) && camera.position.y + dY < 16 + boundsY)
+                camera.translate(0, dY, 0);
+        }
+        if (!game_mode) {
+            if (hitBody != null) // && hitBody != ball2.get_body()
+            {
+                for (int i = 0; i < object.size(); i++) {
+                    if (hitBody == object.get(i).get_body()) {
+                        if (object.get(i).mouse_moved) {
+                            object.get(i).set_coordinate(testPoint.x - delta_x, testPoint.y - delta_y); // remember
+                            // position
+                            hitBody.setTransform(testPoint.x - delta_x, testPoint.y - delta_y, object.get(i).angle);
+                            object.get(i).moveTo(testPoint.x - delta_x, testPoint.y - delta_y);
                         }
                     }
                 }
             }
+        }
         return true;
     }
 
@@ -865,11 +904,41 @@ public class PuzzleGame extends ApplicationAdapter implements InputProcessor, Ge
     @Override
     public boolean zoom(float initialDistance, float distance) {
         mChangingZoom = true;
+        float zoomValue = 0.01f;
         if (initialDistance > distance) {
-            camera.zoom += 0.01f; //zoom out
+            if (camera.zoom < 0.999) {
+                float nextZoom = camera.zoom + zoomValue;
+                float currentBoundsX = (1.0f - nextZoom) * 27;
+                float currentBoundsY = (1.0f - nextZoom) * 15;
+                Gdx.app.log("CurrentBouds", Float.toString(currentBoundsX) + " " + Float.toString(currentBoundsY));
+                //Если после отдаления камера окажется за границей - переместить вправо по Х
+                if (camera.position.x < (-currentBoundsX)) { //left border x
+                    float moveX = Math.abs(camera.position.x) - Math.abs(currentBoundsX);
+                    camera.position.x += moveX;
+                    return true;
+                }
+                if (camera.position.x > (currentBoundsX)) { //right border x
+                    float moveX = Math.abs(camera.position.x) - Math.abs(currentBoundsX);
+                    camera.position.x -= moveX;
+                    return true;
+                }
+                if (camera.position.y > (currentBoundsY + 16)) {
+                    float moveY = camera.position.y - (currentBoundsY + 16);
+                    camera.position.y -= moveY;
+                    return true;
+                }
+                if (camera.position.y < (16 - currentBoundsY)) {
+                    float moveY = (16 - currentBoundsY) - camera.position.y;
+                    camera.position.y += moveY;
+                    return true;
+                }
+                camera.zoom += zoomValue; //zoom out
+            }
         } else {
-            camera.zoom -= 0.01f; //zoom in
+            if (camera.zoom > 0.3)
+                camera.zoom -= zoomValue; //zoom in
         }
+
         return true;
     }
 
